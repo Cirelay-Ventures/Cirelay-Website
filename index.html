@@ -1,655 +1,1237 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-tint="aurora" data-density="regular" data-motion="on">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Cirelay Ventures — Practical automation for real businesses</title>
-<meta name="description" content="Cirelay Ventures builds self-hosted automation tools for small and mid-size businesses. Web scraping, AI assistants, ERP integrations, inventory, marketplace listing. Privacy-first, no API lock-in.">
+<title>Cirelay Ventures — Self-hosted automation for real businesses</title>
+<meta name="description" content="Cirelay Ventures builds open-source, self-hosted automation tools for small and mid-size businesses.">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
 <style>
+  /* ─────────── tokens ─────────── */
   :root {
-    --bg: #070a16;
-    --bg-elevated: #0f1426;
-    --surface: #13182a;
-    --border: #1f2740;
-    --border-bright: #2a3454;
-    --text: #e7ecf5;
-    --text-dim: #9aa3b8;
-    --text-faint: #6b7390;
-    --accent: #5eead4;
-    --accent-bright: #99f6e4;
-    --accent-glow: rgba(94, 234, 212, 0.18);
-    --gradient: linear-gradient(135deg, #5eead4 0%, #38bdf8 50%, #818cf8 100%);
+    --sans: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', system-ui, sans-serif;
+    --mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+    --maxw: 1280px;
+    --gutter: 32px;
+
+    --ink: #0a0c12;
+    --ink-2: rgba(10,12,18,.66);
+    --ink-3: rgba(10,12,18,.46);
+    --ink-4: rgba(10,12,18,.22);
+
+    --white: #ffffff;
+    --on-glass: #0e1118;
+    --on-glass-2: rgba(14,17,24,.7);
+    --on-glass-3: rgba(14,17,24,.5);
+    --on-glass-4: rgba(14,17,24,.25);
+
+    /* glass tokens */
+    --g-bg: rgba(255,255,255,.55);
+    --g-bg-hi: rgba(255,255,255,.78);
+    --g-bg-lo: rgba(255,255,255,.32);
+    --g-stroke: rgba(255,255,255,.65);
+    --g-stroke-2: rgba(255,255,255,.4);
+    --g-shadow: 0 8px 32px rgba(20,25,50,.12), 0 1px 0 rgba(255,255,255,.7) inset, 0 -1px 0 rgba(0,0,0,.04) inset;
+    --g-shadow-lg: 0 24px 60px rgba(20,25,50,.18), 0 1px 0 rgba(255,255,255,.8) inset, 0 -1px 0 rgba(0,0,0,.05) inset;
+    --blur: 28px;
   }
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root[data-tint="aurora"]  { --orb1: #ff7ad9; --orb2: #6ea8ff; --orb3: #7df0c4; --orb4: #ffd166; --canvas: #eef2ff; }
+  :root[data-tint="sunrise"] { --orb1: #ffb866; --orb2: #ff6a9d; --orb3: #b58cff; --orb4: #7ad7ff; --canvas: #fff3eb; }
+  :root[data-tint="mint"]    { --orb1: #7df0c4; --orb2: #6ea8ff; --orb3: #b8ffe0; --orb4: #ffe080; --canvas: #ecfbf5; }
+  :root[data-tint="violet"]  { --orb1: #b58cff; --orb2: #ff7ad9; --orb3: #7ad7ff; --orb4: #ffd6a8; --canvas: #f3edff; }
+  :root[data-tint="ink"]     {
+    --orb1: #4b69ff; --orb2: #ae5cff; --orb3: #4cf3c9; --orb4: #ff7ad9; --canvas: #0a0c14;
+    --ink: #f3f5fb;
+    --ink-2: rgba(243,245,251,.66);
+    --ink-3: rgba(243,245,251,.46);
+    --ink-4: rgba(243,245,251,.22);
+    --on-glass: #f3f5fb;
+    --on-glass-2: rgba(243,245,251,.72);
+    --on-glass-3: rgba(243,245,251,.5);
+    --on-glass-4: rgba(243,245,251,.25);
+    --g-bg: rgba(20,24,38,.5);
+    --g-bg-hi: rgba(30,34,50,.6);
+    --g-bg-lo: rgba(20,24,38,.32);
+    --g-stroke: rgba(255,255,255,.18);
+    --g-stroke-2: rgba(255,255,255,.1);
+    --g-shadow: 0 8px 32px rgba(0,0,0,.4), 0 1px 0 rgba(255,255,255,.12) inset, 0 -1px 0 rgba(0,0,0,.2) inset;
+    --g-shadow-lg: 0 24px 60px rgba(0,0,0,.55), 0 1px 0 rgba(255,255,255,.16) inset, 0 -1px 0 rgba(0,0,0,.25) inset;
+  }
 
+  :root[data-density="dense"]   { --pad-y: 56px; --row-h: 60px; }
+  :root[data-density="regular"] { --pad-y: 96px; --row-h: 70px; }
+  :root[data-density="comfy"]   { --pad-y: 132px; --row-h: 82px; }
+
+  /* ─────────── base ─────────── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
 
   body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--canvas) !important;
+    color: var(--ink);
+    font-family: var(--sans);
     font-size: 16px;
-    line-height: 1.6;
+    line-height: 1.5;
     -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
     overflow-x: hidden;
+    min-height: 100vh;
+    position: relative;
+    transition: background .3s ease, color .3s ease;
   }
 
-  /* Subtle grid background */
-  body::before {
-    content: '';
+  /* ─── animated orb wallpaper ─── */
+  .wallpaper {
     position: fixed;
     inset: 0;
-    background-image:
-      linear-gradient(rgba(94, 234, 212, 0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(94, 234, 212, 0.03) 1px, transparent 1px);
-    background-size: 64px 64px;
-    pointer-events: none;
     z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
   }
+  .orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: .85;
+    will-change: transform;
+  }
+  .orb.o1 { width: 720px; height: 720px; left: -10%; top: -15%;  background: var(--orb1); animation: drift1 24s ease-in-out infinite alternate; }
+  .orb.o2 { width: 640px; height: 640px; right: -8%; top: 8%;    background: var(--orb2); animation: drift2 28s ease-in-out infinite alternate; }
+  .orb.o3 { width: 700px; height: 700px; left: 18%;  top: 55%;   background: var(--orb3); animation: drift3 32s ease-in-out infinite alternate; }
+  .orb.o4 { width: 580px; height: 580px; right: 10%; bottom: -10%; background: var(--orb4); animation: drift4 26s ease-in-out infinite alternate; }
+  :root[data-motion="off"] .orb { animation: none !important; }
 
-  /* Radial glow behind hero */
-  body::after {
-    content: '';
-    position: fixed;
-    top: -20%;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 1200px;
-    height: 800px;
-    background: radial-gradient(ellipse, rgba(94, 234, 212, 0.08) 0%, transparent 60%);
-    pointer-events: none;
-    z-index: 0;
+  @keyframes drift1 { 0%{transform:translate(0,0) scale(1)}   100%{transform:translate(120px,80px) scale(1.15)} }
+  @keyframes drift2 { 0%{transform:translate(0,0) scale(1)}   100%{transform:translate(-100px,60px) scale(.92)} }
+  @keyframes drift3 { 0%{transform:translate(0,0) scale(1)}   100%{transform:translate(80px,-90px) scale(1.1)} }
+  @keyframes drift4 { 0%{transform:translate(0,0) scale(.95)} 100%{transform:translate(-90px,-60px) scale(1.08)} }
+
+  /* fine noise overlay for material feel */
+  .wallpaper::after {
+    content:"";
+    position: absolute; inset: 0;
+    background-image: radial-gradient(rgba(0,0,0,.5) .5px, transparent .5px);
+    background-size: 3px 3px;
+    opacity: .04;
+    mix-blend-mode: overlay;
   }
 
   main, header, footer { position: relative; z-index: 1; }
 
+  ::selection { background: rgba(110,168,255,.4); color: var(--on-glass); }
+
+  /* ─────────── primitives ─────────── */
   .container {
-    max-width: 1180px;
+    max-width: var(--maxw);
     margin: 0 auto;
-    padding: 0 32px;
+    padding: 0 var(--gutter);
   }
 
-  /* Header */
-  header {
+  /* glass surface mixin via class */
+  .glass {
+    background: var(--g-bg);
+    -webkit-backdrop-filter: blur(var(--blur)) saturate(180%);
+    backdrop-filter: blur(var(--blur)) saturate(180%);
+    border: 1px solid var(--g-stroke);
+    box-shadow: var(--g-shadow);
+    border-radius: 24px;
+  }
+  .glass.hi { background: var(--g-bg-hi); }
+  .glass.lo { background: var(--g-bg-lo); border-color: var(--g-stroke-2); }
+  .glass.lg { box-shadow: var(--g-shadow-lg); border-radius: 32px; }
+
+  .mono { font-family: var(--mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--on-glass-3); font-weight: 500; }
+
+  /* ─────────── floating top bar / sysbar ─────────── */
+  .floating-bar {
     position: sticky;
-    top: 0;
-    z-index: 100;
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    background: rgba(7, 10, 22, 0.75);
-    border-bottom: 1px solid var(--border);
+    top: 18px;
+    z-index: 80;
+    margin: 18px auto 0;
+    padding: 0 var(--gutter);
+    max-width: var(--maxw);
   }
-
-  .header-inner {
-    display: flex;
+  .nav-pill {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
     align-items: center;
-    justify-content: space-between;
-    padding: 18px 0;
+    gap: 18px;
+    padding: 10px 12px 10px 20px;
+    border-radius: 999px;
   }
-
   .wordmark {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-weight: 700;
-    font-size: 17px;
-    letter-spacing: -0.01em;
-    color: var(--text);
+    display: flex; align-items: center; gap: 12px;
     text-decoration: none;
-  }
-
-  .wordmark .mark {
-    width: 22px;
-    height: 22px;
-    background: var(--gradient);
-    border-radius: 6px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: 'JetBrains Mono', monospace;
+    color: var(--on-glass);
     font-weight: 700;
-    color: var(--bg);
-    font-size: 13px;
+    font-size: 16.5px;
+    letter-spacing: -.012em;
+    white-space: nowrap;
   }
+  .wordmark .glyph {
+    width: 32px; height: 32px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, var(--orb1), var(--orb2) 50%, var(--orb3));
+    box-shadow: 0 4px 14px rgba(0,0,0,.15), 0 1px 0 rgba(255,255,255,.7) inset;
+    display: grid; place-items: center;
+    color: white;
+    font-weight: 800;
+    font-size: 15px;
+    letter-spacing: -.02em;
+    text-shadow: 0 1px 1px rgba(0,0,0,.25);
+  }
+  .wordmark .v { color: var(--on-glass-2); font-weight: 500; }
 
-  nav ul {
-    display: flex;
-    gap: 32px;
+  nav.main { justify-self: center; }
+  nav.main ul {
+    display: flex; gap: 4px;
     list-style: none;
   }
-
-  nav a {
-    color: var(--text-dim);
+  nav.main a {
     text-decoration: none;
-    font-size: 14px;
-    font-weight: 500;
-    transition: color 0.2s;
-  }
-
-  nav a:hover { color: var(--text); }
-
-  /* Hero */
-  .hero {
-    padding: 120px 0 100px;
-    text-align: center;
-  }
-
-  .eyebrow {
+    color: var(--on-glass-2);
+    transition: all .18s;
     display: inline-block;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 12px;
+    font-size: 13.5px;
     font-weight: 500;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--accent);
-    padding: 6px 14px;
-    border: 1px solid var(--border-bright);
+    padding: 8px 14px;
     border-radius: 999px;
-    background: var(--accent-glow);
-    margin-bottom: 28px;
+  }
+  nav.main a:hover { color: var(--on-glass); background: rgba(255,255,255,.4); }
+  :root[data-tint="ink"] nav.main a:hover { background: rgba(255,255,255,.08); }
+
+  .pill-btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 10px 18px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all .18s;
+    line-height: 1;
+    border: 1px solid transparent;
+  }
+  .pill-btn.solid {
+    background: var(--on-glass);
+    color: var(--canvas);
+    box-shadow: 0 4px 14px rgba(0,0,0,.18), 0 1px 0 rgba(255,255,255,.18) inset;
+  }
+  .pill-btn.solid:hover { transform: translateY(-1px); box-shadow: 0 8px 22px rgba(0,0,0,.24); }
+  .pill-btn.ghost {
+    background: rgba(255,255,255,.5);
+    color: var(--on-glass);
+    border-color: var(--g-stroke-2);
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+  }
+  :root[data-tint="ink"] .pill-btn.ghost { background: rgba(255,255,255,.08); border-color: rgba(255,255,255,.16); }
+  .pill-btn.ghost:hover { background: rgba(255,255,255,.7); }
+  :root[data-tint="ink"] .pill-btn.ghost:hover { background: rgba(255,255,255,.14); }
+  .pill-btn .arr { font-size: 14px; transition: transform .18s; }
+  .pill-btn:hover .arr { transform: translateX(2px); }
+
+  /* status chip with live dot */
+  .status-chip {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 6px 12px 6px 9px;
+    border-radius: 999px;
+    background: rgba(255,255,255,.55);
+    -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(16px);
+    border: 1px solid var(--g-stroke-2);
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: .04em;
+    color: var(--on-glass);
+    font-weight: 500;
+    text-transform: uppercase;
+  }
+  :root[data-tint="ink"] .status-chip { background: rgba(255,255,255,.08); }
+  .status-chip .dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: #21c171;
+    box-shadow: 0 0 0 2px rgba(33,193,113,.25), 0 0 10px rgba(33,193,113,.6);
+    animation: pulse 2.4s ease-out infinite;
+  }
+  @keyframes pulse {
+    0%   { box-shadow: 0 0 0 0 rgba(33,193,113,.5); }
+    70%  { box-shadow: 0 0 0 8px rgba(33,193,113,0); }
+    100% { box-shadow: 0 0 0 0 rgba(33,193,113,0); }
   }
 
-  h1 {
-    font-size: clamp(40px, 7vw, 76px);
-    font-weight: 800;
-    line-height: 1.05;
-    letter-spacing: -0.025em;
-    margin-bottom: 24px;
+  /* ─────────── HERO ─────────── */
+  .hero {
+    padding: 56px 0 var(--pad-y);
+    position: relative;
   }
+  .hero-stack { display: flex; flex-direction: column; align-items: center; gap: 36px; text-align: center; }
 
-  h1 .grad {
-    background: var(--gradient);
+  .hero-chip {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 7px 14px 7px 8px;
+    border-radius: 999px;
+    background: rgba(255,255,255,.6);
+    -webkit-backdrop-filter: blur(18px) saturate(160%);
+    backdrop-filter: blur(18px) saturate(160%);
+    border: 1px solid var(--g-stroke);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--on-glass);
+    box-shadow: 0 4px 14px rgba(20,25,50,.08);
+  }
+  :root[data-tint="ink"] .hero-chip { background: rgba(255,255,255,.08); border-color: rgba(255,255,255,.18); }
+  .hero-chip .tag {
+    background: linear-gradient(135deg, var(--orb2), var(--orb1));
+    color: white;
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    padding: 3px 9px;
+    border-radius: 999px;
+    font-weight: 600;
+    text-shadow: 0 1px 1px rgba(0,0,0,.18);
+  }
+  .hero-chip .dim { color: var(--on-glass-3); }
+
+  h1.hero-h {
+    font-family: var(--sans);
+    font-weight: 700;
+    font-size: clamp(48px, 8vw, 116px);
+    line-height: .96;
+    letter-spacing: -.045em;
+    max-width: 16ch;
+  }
+  h1.hero-h .grad {
+    background: linear-gradient(120deg, var(--orb2) 0%, var(--orb1) 50%, var(--orb3) 100%);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
+    color: transparent;
   }
 
-  .hero p.sub {
+  .hero-sub {
     font-size: 19px;
-    color: var(--text-dim);
-    max-width: 620px;
-    margin: 0 auto 40px;
+    color: var(--on-glass-2);
+    max-width: 58ch;
     line-height: 1.55;
+    font-weight: 400;
   }
+  .hero-sub strong { color: var(--on-glass); font-weight: 600; }
 
-  .cta-row {
-    display: flex;
-    gap: 14px;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
+  .hero-cta { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+  .hero-cta .pill-btn { padding: 14px 26px; font-size: 14.5px; }
 
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 13px 24px;
-    border-radius: 10px;
-    font-size: 14px;
-    font-weight: 600;
-    text-decoration: none;
-    transition: all 0.2s;
-    border: 1px solid transparent;
-    cursor: pointer;
-  }
-
-  .btn-primary {
-    background: var(--accent);
-    color: var(--bg);
-  }
-
-  .btn-primary:hover {
-    background: var(--accent-bright);
-    transform: translateY(-1px);
-    box-shadow: 0 8px 24px var(--accent-glow);
-  }
-
-  .btn-ghost {
-    color: var(--text);
-    border-color: var(--border-bright);
-  }
-
-  .btn-ghost:hover {
-    border-color: var(--accent);
-    color: var(--accent);
-  }
-
-  /* Section */
-  section {
-    padding: 80px 0;
-  }
-
-  .section-head {
-    margin-bottom: 56px;
-    text-align: center;
-  }
-
-  .section-head h2 {
-    font-size: clamp(28px, 4vw, 42px);
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    margin-bottom: 14px;
-  }
-
-  .section-head p {
-    color: var(--text-dim);
-    font-size: 17px;
-    max-width: 540px;
-    margin: 0 auto;
-  }
-
-  /* Product grid */
-  .product-grid {
+  /* hero stat strip — floating glass card */
+  .hero-stats {
+    margin-top: 24px;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    padding: 22px 8px;
+    width: 100%;
+    max-width: 880px;
   }
-
-  .card {
-    position: relative;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 30px;
-    transition: all 0.25s;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-  }
-
-  .card::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(circle at top right, var(--accent-glow), transparent 50%);
-    opacity: 0;
-    transition: opacity 0.25s;
-    pointer-events: none;
-  }
-
-  .card:hover {
-    border-color: var(--border-bright);
-    transform: translateY(-2px);
-  }
-
-  .card:hover::before { opacity: 1; }
-
-  .card-glyph {
-    width: 44px;
-    height: 44px;
-    border-radius: 10px;
-    background: linear-gradient(135deg, var(--bg-elevated), var(--surface));
-    border: 1px solid var(--border-bright);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--accent);
-    margin-bottom: 22px;
-    font-family: 'JetBrains Mono', monospace;
-    font-weight: 700;
-    font-size: 17px;
-  }
-
-  .card h3 {
-    font-size: 20px;
-    font-weight: 700;
-    letter-spacing: -0.01em;
-    margin-bottom: 10px;
-  }
-
-  .card .tag {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
-    font-weight: 500;
-    color: var(--text-faint);
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    margin-bottom: 14px;
-    display: block;
-  }
-
-  .card p.desc {
-    color: var(--text-dim);
-    font-size: 15px;
-    line-height: 1.55;
-    margin-bottom: 22px;
-    flex: 1;
-  }
-
-  .chip-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    margin-bottom: 22px;
-  }
-
-  .chip {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
-    font-weight: 500;
-    color: var(--text-dim);
-    background: var(--bg-elevated);
-    padding: 4px 10px;
-    border-radius: 6px;
-    border: 1px solid var(--border);
-  }
-
-  .card-link {
-    color: var(--accent);
-    text-decoration: none;
-    font-size: 14px;
-    font-weight: 600;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    transition: gap 0.2s;
-    align-self: flex-start;
-  }
-
-  .card-link:hover { gap: 10px; }
-
-  .card-link::after {
-    content: '→';
-    transition: transform 0.2s;
-  }
-
-  /* About */
-  .about {
-    background: var(--bg-elevated);
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-  }
-
-  .about-inner {
-    max-width: 720px;
-    margin: 0 auto;
-    text-align: center;
-  }
-
-  .about p {
-    font-size: 18px;
-    color: var(--text-dim);
-    margin-bottom: 18px;
-    line-height: 1.65;
-  }
-
-  .about p strong {
-    color: var(--text);
-    font-weight: 600;
-  }
-
-  .principles {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 24px;
-    margin-top: 48px;
+  .hero-stat {
+    padding: 4px 18px;
+    border-left: 1px solid var(--g-stroke-2);
     text-align: left;
   }
-
-  .principle {
-    padding: 24px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-  }
-
-  .principle h4 {
-    font-size: 14px;
-    font-weight: 600;
-    margin-bottom: 8px;
-    color: var(--accent);
-    font-family: 'JetBrains Mono', monospace;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-  }
-
-  .principle p {
-    color: var(--text-dim);
-    font-size: 14px;
-    margin: 0;
-  }
-
-  /* Contact */
-  .contact {
-    text-align: center;
-  }
-
-  .contact h2 {
-    font-size: clamp(28px, 4vw, 42px);
+  .hero-stat:first-child { border-left: 0; }
+  .hero-stat .n {
+    font-family: var(--sans);
+    font-size: 32px;
     font-weight: 700;
-    letter-spacing: -0.02em;
-    margin-bottom: 18px;
+    letter-spacing: -.03em;
+    line-height: 1;
+    color: var(--on-glass);
+    display: flex; align-items: baseline; gap: 4px;
+  }
+  .hero-stat .n .grad {
+    background: linear-gradient(135deg, var(--orb2), var(--orb1));
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .hero-stat .n .unit { font-size: 14px; font-weight: 500; color: var(--on-glass-3); }
+  .hero-stat .lbl {
+    font-size: 12px;
+    color: var(--on-glass-3);
+    margin-top: 6px;
+    letter-spacing: -.005em;
   }
 
-  .contact p.sub {
-    color: var(--text-dim);
+  /* ─────────── section header ─────────── */
+  .sec {
+    padding: var(--pad-y) 0;
+    position: relative;
+  }
+  .sec-head {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 14px;
+    margin-bottom: 56px;
+  }
+  .sec-eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--on-glass-3);
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: rgba(255,255,255,.45);
+    border: 1px solid var(--g-stroke-2);
+    -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
+  }
+  :root[data-tint="ink"] .sec-eyebrow { background: rgba(255,255,255,.07); }
+  .sec-eyebrow .dot { width: 6px; height: 6px; border-radius: 50%; background: linear-gradient(135deg, var(--orb1), var(--orb2)); }
+  .sec-title {
+    font-size: clamp(34px, 4.6vw, 60px);
+    font-weight: 700;
+    letter-spacing: -.035em;
+    line-height: 1.04;
+    max-width: 22ch;
+    color: var(--on-glass);
+  }
+  .sec-title .grad {
+    background: linear-gradient(120deg, var(--orb2), var(--orb1) 60%, var(--orb3));
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .sec-sub {
     font-size: 17px;
-    margin-bottom: 36px;
+    color: var(--on-glass-3);
+    max-width: 56ch;
+    line-height: 1.55;
   }
 
-  .email-link {
-    display: inline-block;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 24px;
+  /* ─────────── PRODUCT INDEX (glass cards stacked) ─────────── */
+  .index-wrap {
+    padding: 14px;
+    border-radius: 28px;
+  }
+  .index { display: flex; flex-direction: column; gap: 6px; }
+  .index-row {
+    display: grid;
+    grid-template-columns: 70px minmax(180px, 1.3fr) minmax(120px, 1fr) minmax(200px, 1.4fr) 120px 36px;
+    align-items: center;
+    gap: 20px;
+    padding: 14px 18px;
+    border-radius: 18px;
+    cursor: pointer;
+    transition: all .2s ease;
+    position: relative;
+  }
+  .index-row:hover { background: rgba(255,255,255,.4); }
+  :root[data-tint="ink"] .index-row:hover { background: rgba(255,255,255,.06); }
+  .index-row.active {
+    background: rgba(255,255,255,.85);
+    box-shadow: 0 12px 30px rgba(20,25,50,.14), 0 1px 0 rgba(255,255,255,.9) inset, 0 -1px 0 rgba(0,0,0,.04) inset;
+  }
+  :root[data-tint="ink"] .index-row.active { background: rgba(255,255,255,.12); box-shadow: 0 12px 30px rgba(0,0,0,.4), 0 1px 0 rgba(255,255,255,.16) inset; }
+  .index-row.active::before {
+    content: "";
+    position: absolute;
+    left: 6px; top: 50%;
+    width: 3px; height: 24px;
+    background: linear-gradient(135deg, var(--orb1), var(--orb2));
+    border-radius: 4px;
+    transform: translateY(-50%);
+  }
+
+  .index-row .id   { font-family: var(--mono); font-size: 11.5px; color: var(--on-glass-3); letter-spacing: .02em; font-weight: 500; }
+  .index-row .name { font-size: 18px; font-weight: 600; letter-spacing: -.018em; color: var(--on-glass); }
+  .index-row .domain { font-family: var(--mono); font-size: 11px; color: var(--on-glass-3); letter-spacing: .06em; text-transform: uppercase; }
+  .index-row .stack { font-family: var(--mono); font-size: 11.5px; color: var(--on-glass-2); }
+
+  .index-row .status {
+    display: inline-flex; align-items: center; gap: 7px;
+    padding: 4px 10px 4px 8px;
+    border-radius: 999px;
+    background: rgba(33,193,113,.14);
+    border: 1px solid rgba(33,193,113,.32);
+    color: #0d8f51;
+    font-family: var(--mono);
+    font-size: 11px;
     font-weight: 600;
-    color: var(--accent);
-    text-decoration: none;
-    padding: 18px 36px;
-    border: 1px solid var(--border-bright);
-    border-radius: 12px;
-    background: var(--surface);
-    transition: all 0.2s;
+    letter-spacing: .02em;
+    width: fit-content;
   }
+  :root[data-tint="ink"] .index-row .status { color: #5be0a0; }
+  .index-row .status .dot { width: 6px; height: 6px; border-radius: 50%; background: #21c171; box-shadow: 0 0 6px #21c171; }
+  .index-row .status.beta { background: rgba(245,158,11,.16); border-color: rgba(245,158,11,.34); color: #a86508; }
+  :root[data-tint="ink"] .index-row .status.beta { color: #fbbf49; }
+  .index-row .status.beta .dot { background: #f59e0b; box-shadow: 0 0 6px #f59e0b; }
 
-  .email-link:hover {
-    border-color: var(--accent);
-    background: var(--accent-glow);
-    transform: translateY(-1px);
+  .index-row .chev {
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.6);
+    border: 1px solid var(--g-stroke-2);
+    display: grid; place-items: center;
+    color: var(--on-glass-2);
+    font-size: 14px;
+    transition: all .2s;
   }
+  :root[data-tint="ink"] .index-row .chev { background: rgba(255,255,255,.08); }
+  .index-row:hover .chev { background: var(--on-glass); color: var(--canvas); transform: translateX(2px); }
+  .index-row.active .chev { background: linear-gradient(135deg, var(--orb2), var(--orb1)); color: white; border-color: transparent; }
 
-  /* Footer */
-  footer {
-    border-top: 1px solid var(--border);
-    padding: 40px 0;
-    color: var(--text-faint);
+  /* ─────────── SPEC SHEET ─────────── */
+  .spec {
+    margin-top: 32px;
+    display: grid;
+    grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr);
+    gap: 24px;
+    min-height: 460px;
+  }
+  .spec-l, .spec-r { border-radius: 28px; padding: 32px; }
+  .spec-l { display: flex; flex-direction: column; gap: 22px; }
+
+  .spec-crumb {
+    display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--on-glass-3);
+    letter-spacing: .04em;
+  }
+  .spec-crumb .pill {
+    padding: 3px 9px;
+    border-radius: 999px;
+    background: linear-gradient(135deg, var(--orb2), var(--orb1));
+    color: white;
+    font-weight: 600;
+    text-shadow: 0 1px 1px rgba(0,0,0,.18);
+  }
+  .spec-crumb .arr { color: var(--on-glass-4); }
+
+  .spec-title {
+    font-size: clamp(36px, 5vw, 60px);
+    font-weight: 700;
+    letter-spacing: -.035em;
+    line-height: 1;
+    color: var(--on-glass);
+  }
+  .spec-tagline {
+    font-size: 20px;
+    color: var(--on-glass);
+    line-height: 1.4;
+    font-weight: 500;
+    max-width: 40ch;
+  }
+  .spec-body {
+    font-size: 15.5px;
+    color: var(--on-glass-2);
+    line-height: 1.65;
+    max-width: 58ch;
+  }
+  .spec-body p + p { margin-top: 12px; }
+  .spec-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 6px; }
+
+  /* spec right rail */
+  .spec-r { display: flex; flex-direction: column; gap: 22px; align-self: start; }
+  .spec-r .heading {
+    display: flex; justify-content: space-between; align-items: center;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--g-stroke-2);
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--on-glass-3);
+    font-weight: 600;
+  }
+  .spec-r .heading .badge {
+    background: rgba(255,255,255,.7);
+    color: var(--on-glass);
+    padding: 3px 9px;
+    border-radius: 999px;
+    border: 1px solid var(--g-stroke-2);
+  }
+  :root[data-tint="ink"] .spec-r .heading .badge { background: rgba(255,255,255,.1); }
+
+  .spec-r dl {
+    display: grid;
+    grid-template-columns: 90px 1fr;
+    row-gap: 12px;
+    column-gap: 14px;
     font-size: 13px;
   }
+  .spec-r dt {
+    color: var(--on-glass-3);
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    font-size: 11px;
+    padding-top: 2px;
+    font-family: var(--mono);
+    font-weight: 500;
+  }
+  .spec-r dd { color: var(--on-glass); font-weight: 500; }
+  .spec-r .chiprow { display: flex; flex-wrap: wrap; gap: 5px; }
+  .spec-r .chip {
+    font-family: var(--mono);
+    font-size: 11px;
+    padding: 3px 9px;
+    border-radius: 999px;
+    background: rgba(255,255,255,.6);
+    border: 1px solid var(--g-stroke-2);
+    color: var(--on-glass);
+    font-weight: 500;
+  }
+  :root[data-tint="ink"] .spec-r .chip { background: rgba(255,255,255,.08); }
 
-  .footer-inner {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
+  .spec-cmd { display: flex; flex-direction: column; gap: 8px; }
+  .spec-cmd .lbl {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--on-glass-3);
+    font-weight: 600;
+  }
+  .spec-cmd code {
+    display: block;
+    font-family: var(--mono);
+    font-size: 12px;
+    background: rgba(10,12,18,.92);
+    color: #e7ebf5;
+    padding: 14px 16px;
+    border-radius: 14px;
+    line-height: 1.55;
+    white-space: pre;
+    overflow-x: auto;
+    border: 1px solid rgba(255,255,255,.06);
+    box-shadow: 0 1px 0 rgba(255,255,255,.06) inset;
+  }
+  .spec-cmd code .prompt { color: #8af0c4; user-select: none; }
+
+  /* ─────────── WHY (two glass cards side-by-side) ─────────── */
+  .why-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  .why-col { padding: 32px; border-radius: 28px; display: flex; flex-direction: column; gap: 18px; }
+  .why-col.good {
+    background: linear-gradient(150deg, rgba(255,255,255,.7), rgba(255,255,255,.4));
+    position: relative;
+    overflow: hidden;
+  }
+  .why-col.good::before {
+    content:"";
+    position: absolute; inset: -40%;
+    background: radial-gradient(circle at 30% 30%, var(--orb1) 0%, transparent 40%),
+                radial-gradient(circle at 70% 80%, var(--orb2) 0%, transparent 40%);
+    opacity: .35;
+    z-index: -1;
+    filter: blur(40px);
+  }
+  :root[data-tint="ink"] .why-col.good { background: linear-gradient(150deg, rgba(255,255,255,.12), rgba(255,255,255,.04)); }
+
+  .why-col .lbl {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--on-glass-3);
+    display: flex; justify-content: space-between; align-items: center;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--g-stroke-2);
+    font-weight: 600;
+  }
+  .why-col .lbl b { color: var(--on-glass); font-weight: 700; }
+  .why-col .lbl .pill {
+    padding: 3px 9px;
+    border-radius: 999px;
+    font-size: 10px;
+    letter-spacing: .08em;
+  }
+  .why-col.bad  .lbl .pill { background: rgba(238,68,68,.15); color: #c43b3b; border: 1px solid rgba(238,68,68,.3); }
+  .why-col.good .lbl .pill { background: rgba(33,193,113,.18); color: #0a7a44; border: 1px solid rgba(33,193,113,.35); }
+  :root[data-tint="ink"] .why-col.bad  .lbl .pill { color: #ff8b8b; }
+  :root[data-tint="ink"] .why-col.good .lbl .pill { color: #6be7a8; }
+
+  .why-list { display: flex; flex-direction: column; gap: 14px; }
+  .why-item {
+    display: grid;
+    grid-template-columns: 26px 1fr;
+    gap: 12px;
+    font-size: 15.5px;
+    line-height: 1.5;
+    color: var(--on-glass-2);
+  }
+  .why-item .sym {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    display: grid; place-items: center;
+    font-size: 12px;
+    font-weight: 700;
+    margin-top: 1px;
+  }
+  .why-col.bad  .why-item .sym { background: rgba(238,68,68,.15); color: #c43b3b; }
+  .why-col.good .why-item .sym { background: linear-gradient(135deg, var(--orb2), var(--orb1)); color: white; box-shadow: 0 2px 6px rgba(0,0,0,.18); }
+  .why-item strong { color: var(--on-glass); font-weight: 600; }
+
+  /* ─────────── PROCESS ─────────── */
+  .process {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
     gap: 16px;
   }
-
-  footer a {
-    color: var(--text-dim);
-    text-decoration: none;
-    transition: color 0.2s;
-  }
-
-  footer a:hover { color: var(--accent); }
-
-  .footer-links {
+  .proc {
+    padding: 26px;
+    border-radius: 24px;
     display: flex;
-    gap: 24px;
+    flex-direction: column;
+    gap: 14px;
+    transition: transform .25s ease;
+  }
+  .proc:hover { transform: translateY(-3px); }
+  .proc .n {
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .proc .n .big {
+    font-size: 36px;
+    font-weight: 700;
+    letter-spacing: -.04em;
+    line-height: .85;
+    background: linear-gradient(135deg, var(--orb2), var(--orb1));
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .proc .n .step {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: .12em;
+    color: var(--on-glass-3);
+    text-transform: uppercase;
+    padding: 3px 9px;
+    border-radius: 999px;
+    background: rgba(255,255,255,.55);
+    border: 1px solid var(--g-stroke-2);
+  }
+  :root[data-tint="ink"] .proc .n .step { background: rgba(255,255,255,.08); }
+  .proc h4 {
+    font-size: 19px;
+    font-weight: 600;
+    letter-spacing: -.018em;
+    line-height: 1.18;
+    color: var(--on-glass);
+  }
+  .proc p {
+    font-size: 14px;
+    color: var(--on-glass-2);
+    line-height: 1.55;
+    flex: 1;
+  }
+  .proc .dur {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    color: var(--on-glass-3);
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    padding-top: 12px;
+    border-top: 1px dashed var(--g-stroke-2);
   }
 
-  /* Mobile */
-  @media (max-width: 720px) {
-    .container { padding: 0 22px; }
-    nav ul { gap: 20px; }
-    .hero { padding: 80px 0 60px; }
-    section { padding: 60px 0; }
+  /* ─────────── CONTACT ─────────── */
+  .contact-card {
+    padding: 56px 48px;
+    border-radius: 36px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
   }
+  .contact-card::before {
+    content:"";
+    position: absolute;
+    inset: -30%;
+    background:
+      radial-gradient(circle at 20% 30%, var(--orb1) 0%, transparent 40%),
+      radial-gradient(circle at 80% 70%, var(--orb2) 0%, transparent 40%),
+      radial-gradient(circle at 50% 90%, var(--orb3) 0%, transparent 40%);
+    opacity: .55;
+    z-index: -1;
+    filter: blur(50px);
+  }
+  .contact-card h2 {
+    font-size: clamp(40px, 5.5vw, 76px);
+    font-weight: 700;
+    letter-spacing: -.038em;
+    line-height: 1;
+    margin-bottom: 18px;
+    color: var(--on-glass);
+  }
+  .contact-card h2 .grad {
+    background: linear-gradient(120deg, var(--orb2), var(--orb1), var(--orb3));
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .contact-card p {
+    font-size: 18px;
+    color: var(--on-glass-2);
+    max-width: 50ch;
+    margin: 0 auto 32px;
+    line-height: 1.55;
+  }
+  .email-big {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    padding: 18px 28px 18px 32px;
+    background: rgba(255,255,255,.7);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid var(--g-stroke);
+    border-radius: 999px;
+    text-decoration: none;
+    font-size: clamp(20px, 2.4vw, 28px);
+    font-weight: 600;
+    letter-spacing: -.02em;
+    color: var(--on-glass);
+    transition: all .2s;
+    box-shadow: 0 12px 36px rgba(20,25,50,.14), 0 1px 0 rgba(255,255,255,.8) inset;
+  }
+  :root[data-tint="ink"] .email-big { background: rgba(255,255,255,.12); }
+  .email-big:hover { transform: translateY(-2px); box-shadow: 0 20px 50px rgba(20,25,50,.22), 0 1px 0 rgba(255,255,255,.8) inset; }
+  .email-big .arr-circ {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--orb2), var(--orb1));
+    color: white;
+    display: grid; place-items: center;
+    font-size: 16px;
+    box-shadow: 0 4px 12px rgba(0,0,0,.18);
+    transition: transform .2s;
+  }
+  .email-big:hover .arr-circ { transform: rotate(-12deg) translate(2px,-2px); }
 
-  @media (max-width: 520px) {
-    nav { display: none; }
-    .product-grid { grid-template-columns: 1fr; }
+  .contact-meta {
+    margin-top: 32px;
+    display: flex; justify-content: center; gap: 28px; flex-wrap: wrap;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--on-glass-3);
+    letter-spacing: .04em;
+  }
+  .contact-meta .item { display: inline-flex; align-items: center; gap: 8px; }
+  .contact-meta .item b { color: var(--on-glass); font-weight: 600; }
+
+  /* ─────────── FOOTER ─────────── */
+  footer {
+    padding: 56px 0 36px;
+    position: relative;
+  }
+  .footer-card {
+    padding: 36px 36px 28px;
+    border-radius: 28px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 36px;
+  }
+  .footer-col h5 {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--on-glass-3);
+    margin-bottom: 12px;
+    font-weight: 600;
+  }
+  .footer-col a {
+    color: var(--on-glass);
+    text-decoration: none;
+    display: block;
+    padding: 3px 0;
+    font-size: 14px;
+    transition: color .15s;
+  }
+  .footer-col a:hover { color: var(--orb2); }
+  .footer-col span { color: var(--on-glass-2); font-size: 14px; display: block; padding: 3px 0; }
+  .footer-bottom {
+    margin-top: 18px;
+    padding: 20px 0 0;
+    border-top: 1px solid var(--g-stroke-2);
+    display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--on-glass-3);
+    letter-spacing: .04em;
+  }
+  .footer-bottom .wordmark { font-size: 14px; }
+
+  /* ─────────── responsive ─────────── */
+  @media (max-width: 980px) {
+    .spec { grid-template-columns: 1fr; }
+    .why-grid { grid-template-columns: 1fr; }
+    .process { grid-template-columns: 1fr 1fr; }
+    .index-row { grid-template-columns: 60px 1.3fr 1fr 110px 30px; }
+    .index-row .domain { display: none; }
+    .hero-stats { grid-template-columns: 1fr 1fr; gap: 16px 0; }
+    .hero-stat { padding: 8px 18px; }
+    .hero-stat:nth-child(3) { border-left: 0; }
+    .footer-card { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 640px) {
+    :root { --gutter: 20px; }
+    nav.main { display: none; }
+    .nav-pill { grid-template-columns: auto auto; }
+    .process { grid-template-columns: 1fr; }
+    .index-row { grid-template-columns: 50px 1fr 90px 28px; gap: 12px; padding: 12px 14px; }
+    .index-row .stack { display: none; }
+    .spec-l, .spec-r, .contact-card { padding: 26px; }
+    .footer-card { grid-template-columns: 1fr; padding: 26px; }
   }
 </style>
 </head>
+
 <body>
 
-<header>
-  <div class="container header-inner">
-    <a href="#" class="wordmark">
-      <span class="mark">C</span>
-      <span>Cirelay Ventures</span>
+<div class="wallpaper" aria-hidden="true">
+  <div class="orb o1"></div>
+  <div class="orb o2"></div>
+  <div class="orb o3"></div>
+  <div class="orb o4"></div>
+</div>
+
+<div class="floating-bar">
+  <div class="nav-pill glass">
+    <a href="#top" class="wordmark">
+      <span class="glyph">C</span>
+      <span>Cirelay <span class="v">Ventures</span></span>
     </a>
-    <nav>
+    <nav class="main">
       <ul>
         <li><a href="#products">Products</a></li>
-        <li><a href="#about">About</a></li>
+        <li><a href="#why">Why</a></li>
+        <li><a href="#process">Process</a></li>
         <li><a href="#contact">Contact</a></li>
-        <li><a href="https://github.com/Cirelay-Ventures">GitHub</a></li>
       </ul>
     </nav>
+    <a href="https://github.com/Cirelay-Ventures" class="pill-btn solid" target="_blank" rel="noopener">
+      <span>GitHub</span><span class="arr">↗</span>
+    </a>
   </div>
-</header>
+</div>
 
-<main>
+<main id="top">
+
+  <!-- ─────────── HERO ─────────── -->
   <section class="hero">
     <div class="container">
-      <span class="eyebrow">Self-hosted · Open-source · Built for SMB</span>
-      <h1>Practical automation<br>for <span class="grad">real businesses</span></h1>
-      <p class="sub">Cirelay Ventures builds tools for the businesses that don't have time for tech bullshit. Run them on your own server. Own your data. No per-seat pricing.</p>
-      <div class="cta-row">
-        <a href="#products" class="btn btn-primary">Explore products →</a>
-        <a href="#contact" class="btn btn-ghost">Get in touch</a>
+      <div class="hero-stack">
+
+        <span class="status-chip">
+          <span class="dot"></span>
+          Open for commissions · response &lt; 48h
+        </span>
+
+        <h1 class="hero-h">
+          Tools that keep working <span class="grad">after you stop paying us.</span>
+        </h1>
+
+        <p class="hero-sub">
+          Cirelay Ventures builds <strong>open-source</strong>, <strong>self-hosted</strong> automation for the small and mid-size businesses that don't have time for tech theatre. Run it on your server. Own your data. No per-seat pricing.
+        </p>
+
+        <div class="hero-cta">
+          <a href="#products" class="pill-btn solid"><span>Browse the toolkit</span><span class="arr">→</span></a>
+          <a href="#contact" class="pill-btn ghost"><span>Commission a build</span><span class="arr">→</span></a>
+        </div>
+
+        <div class="hero-stats glass hi lg">
+          <div class="hero-stat">
+            <div class="n"><span class="grad">05</span></div>
+            <div class="lbl">Products shipped &amp; maintained</div>
+          </div>
+          <div class="hero-stat">
+            <div class="n">100<span class="unit">%</span></div>
+            <div class="lbl">Open-source · self-hosted</div>
+          </div>
+          <div class="hero-stat">
+            <div class="n">&lt;48<span class="unit">h</span></div>
+            <div class="lbl">Average response time</div>
+          </div>
+          <div class="hero-stat">
+            <div class="n">$0<span class="unit"> / seat</span></div>
+            <div class="lbl">Per-user pricing, ever</div>
+          </div>
+        </div>
+
       </div>
     </div>
   </section>
 
-  <section id="products">
+  <!-- ─────────── PRODUCTS ─────────── -->
+  <section class="sec" id="products">
     <div class="container">
-      <div class="section-head">
-        <h2>Five tools, one toolkit</h2>
-        <p>Each product is open-source on GitHub. Self-host, modify, or hire us to customize.</p>
+      <div class="sec-head">
+        <span class="sec-eyebrow"><span class="dot"></span>01 — Toolkit</span>
+        <h2 class="sec-title">Five tools.<br><span class="grad">One toolkit.</span></h2>
+        <p class="sec-sub">Each product ships open-source. Self-host any of them as-is, or commission us to fork and customize.</p>
       </div>
 
-      <div class="product-grid">
-
-        <article class="card">
-          <div class="card-glyph">⌬</div>
-          <span class="tag">Web Scraping</span>
-          <h3>Cirelay-Triatomine</h3>
-          <p class="desc">Multi-tier scraper for retail pricing intelligence. Tier escalation from raw HTTP through stealth Chrome to a real logged-in browser. Adaptive selector memory survives template drift.</p>
-          <div class="chip-row">
-            <span class="chip">Python</span>
-            <span class="chip">FastAPI</span>
-            <span class="chip">Playwright</span>
-            <span class="chip">Go</span>
-          </div>
-          <a href="https://github.com/Cirelay-Ventures/Cirelay-Triatomine" class="card-link">View on GitHub</a>
-        </article>
-
-        <article class="card">
-          <div class="card-glyph">◐</div>
-          <span class="tag">AI Assistant</span>
-          <h3>Cirelay-Chat</h3>
-          <p class="desc">Local AI chatbot for your business knowledge base. FastAPI + Ollama + ChromaDB. Privacy-first — your data never leaves your server. Train it on your docs, processes, FAQs.</p>
-          <div class="chip-row">
-            <span class="chip">Python</span>
-            <span class="chip">FastAPI</span>
-            <span class="chip">Ollama</span>
-            <span class="chip">ChromaDB</span>
-          </div>
-          <a href="https://github.com/Cirelay-Ventures/Cirelay-Chat" class="card-link">View on GitHub</a>
-        </article>
-
-        <article class="card">
-          <div class="card-glyph">◇</div>
-          <span class="tag">Marketplace</span>
-          <h3>Cirelay-Marketplace</h3>
-          <p class="desc">List once, sell everywhere. Automated listing creation across Facebook Marketplace and Kijiji. Programmatic ad management with dashboard for tracking active listings.</p>
-          <div class="chip-row">
-            <span class="chip">Python</span>
-            <span class="chip">Node.js</span>
-            <span class="chip">Selenium</span>
-            <span class="chip">Tailwind</span>
-          </div>
-          <a href="https://github.com/Cirelay-Ventures/Cirelay-Marketplace" class="card-link">View on GitHub</a>
-        </article>
-
-        <article class="card">
-          <div class="card-glyph">⊞</div>
-          <span class="tag">ERP</span>
-          <h3>Cirelay-ERP</h3>
-          <p class="desc">ERPNext customized for retail and SMB. WooCommerce product/order/inventory sync with workflow automations. Self-hostable Frappe stack with custom fields and integrations.</p>
-          <div class="chip-row">
-            <span class="chip">Python</span>
-            <span class="chip">Frappe</span>
-            <span class="chip">ERPNext</span>
-            <span class="chip">WooCommerce</span>
-          </div>
-          <a href="https://github.com/Cirelay-Ventures/Cirelay-ERP" class="card-link">View on GitHub</a>
-        </article>
-
-        <article class="card">
-          <div class="card-glyph">⊟</div>
-          <span class="tag">Inventory</span>
-          <h3>Cirelay-Inventory</h3>
-          <p class="desc">Stock management with barcode scanning and a companion Android app. Track products, suppliers, customers, sales. Built on the proven MIT-licensed Inventory-Stock-With-Scanner foundation.</p>
-          <div class="chip-row">
-            <span class="chip">PHP</span>
-            <span class="chip">Laravel</span>
-            <span class="chip">Android</span>
-            <span class="chip">EAN13</span>
-          </div>
-          <a href="https://github.com/Cirelay-Ventures/Cirelay-Inventory" class="card-link">View on GitHub</a>
-        </article>
-
+      <div class="index-wrap glass hi lg">
+        <div class="index" role="table" aria-label="Product index">
+          <div id="indexBody"></div>
+        </div>
       </div>
+
+      <div class="spec" id="spec" aria-live="polite"></div>
     </div>
   </section>
 
-  <section id="about" class="about">
-    <div class="container about-inner">
-      <h2 class="section-head" style="margin-bottom:24px;">Why Cirelay</h2>
-      <p>Most SaaS tools for small businesses are <strong>too expensive</strong>, <strong>too generic</strong>, or <strong>hold your data hostage</strong>. We build the opposite: tools you host on your own server, tools you can modify, tools you actually own.</p>
-      <p>If a stock product fits your business, great. If it doesn't, we customize. If we don't make it yet, we'll build it.</p>
-
-      <div class="principles">
-        <div class="principle">
-          <h4>Self-hosted</h4>
-          <p>Run everything on your infrastructure. Your data stays on your server.</p>
-        </div>
-        <div class="principle">
-          <h4>Open source</h4>
-          <p>Every product is on GitHub. Read the code, fork it, modify it, audit it.</p>
-        </div>
-        <div class="principle">
-          <h4>No lock-in</h4>
-          <p>No per-seat pricing. No vendor-managed APIs. You stop paying us, your stack keeps running.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section id="contact" class="contact">
+  <!-- ─────────── WHY ─────────── -->
+  <section class="sec" id="why">
     <div class="container">
-      <h2>Let's talk</h2>
-      <p class="sub">Need a custom build? Stuck on integration? Have a problem we haven't solved yet?</p>
-      <a href="mailto:hello@cirelay.com" class="email-link">hello@cirelay.com</a>
+      <div class="sec-head">
+        <span class="sec-eyebrow"><span class="dot"></span>02 — Position</span>
+        <h2 class="sec-title">Why <span class="grad">Cirelay.</span><br>And why not the others.</h2>
+        <p class="sec-sub">A clear contrast between what most SaaS-for-SMB does, and what we do differently.</p>
+      </div>
+
+      <div class="why-grid">
+        <div class="why-col bad glass">
+          <div class="lbl"><span><b>Most SaaS for SMB</b></span><span class="pill">× the usual</span></div>
+          <div class="why-list">
+            <div class="why-item"><span class="sym">×</span><span>Per-seat pricing that <strong>punishes growth.</strong></span></div>
+            <div class="why-item"><span class="sym">×</span><span>Your data lives on <strong>their servers,</strong> on their terms.</span></div>
+            <div class="why-item"><span class="sym">×</span><span>One-size-fits-none. Customization is <strong>"enterprise tier".</strong></span></div>
+            <div class="why-item"><span class="sym">×</span><span>APIs deprecate. Pricing doubles. You start over.</span></div>
+            <div class="why-item"><span class="sym">×</span><span>Closed source. Audit? <strong>Trust us.</strong></span></div>
+          </div>
+        </div>
+        <div class="why-col good glass">
+          <div class="lbl"><span><b>Cirelay Ventures</b></span><span class="pill">✓ our way</span></div>
+          <div class="why-list">
+            <div class="why-item"><span class="sym">✓</span><span>Pay <strong>once for the build.</strong> Pay us again only if you want to.</span></div>
+            <div class="why-item"><span class="sym">✓</span><span>Self-hosted by default. Data <strong>never leaves your server.</strong></span></div>
+            <div class="why-item"><span class="sym">✓</span><span>Stock product fits? Great. Doesn't? <strong>We fork it for you.</strong></span></div>
+            <div class="why-item"><span class="sym">✓</span><span>Open code. <strong>Auditable forever.</strong> Forkable today.</span></div>
+            <div class="why-item"><span class="sym">✓</span><span>Stop paying us. <strong>Your stack keeps running.</strong></span></div>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
+
+  <!-- ─────────── PROCESS ─────────── -->
+  <section class="sec" id="process">
+    <div class="container">
+      <div class="sec-head">
+        <span class="sec-eyebrow"><span class="dot"></span>03 — Engagement</span>
+        <h2 class="sec-title">From email to <span class="grad">deployed.</span></h2>
+        <p class="sec-sub">Four steps, two to six weeks. No drawn-out discovery phases, no fake urgency.</p>
+      </div>
+
+      <div class="process">
+        <div class="proc glass">
+          <div class="n"><span class="big">01</span><span class="step">Step</span></div>
+          <h4>Tell us the problem.</h4>
+          <p>Email or call. We listen for the boring repetitive thing eating someone's afternoon — that's where automation pays.</p>
+          <div class="dur">~ 30 min · free</div>
+        </div>
+        <div class="proc glass">
+          <div class="n"><span class="big">02</span><span class="step">Step</span></div>
+          <h4>We scope it honestly.</h4>
+          <p>Fixed quote. Stock product fits? We say so and bill less. Have to fork? We tell you what and why.</p>
+          <div class="dur">~ 2 days · written</div>
+        </div>
+        <div class="proc glass">
+          <div class="n"><span class="big">03</span><span class="step">Step</span></div>
+          <h4>We build &amp; deploy.</h4>
+          <p>On your server, your VPS, or your laptop. Source in a repo you own. Documented. Reproducible.</p>
+          <div class="dur">~ 1–4 wks · staged</div>
+        </div>
+        <div class="proc glass">
+          <div class="n"><span class="big">04</span><span class="step">Step</span></div>
+          <h4>You own it.</h4>
+          <p>Optional retainer for updates and on-call. Cancel anytime — the code keeps running. That's the point.</p>
+          <div class="dur">~ forever · yours</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────── CONTACT ─────────── -->
+  <section class="sec" id="contact">
+    <div class="container">
+      <div class="contact-card glass hi lg">
+        <h2>Got a boring problem?<br><span class="grad">Tell us about it.</span></h2>
+        <p>Tell us what's manual today. We'll tell you whether we can make it not-manual — and roughly what it'd cost. No "schedule a call" funnels.</p>
+        <a href="mailto:hello@cirelay.com?subject=Cirelay%20-%20I%20have%20a%20boring%20problem" class="email-big">
+          <span>hello@cirelay.com</span>
+          <span class="arr-circ">↗</span>
+        </a>
+        <div class="contact-meta">
+          <span class="item"><b>Response</b> usually &lt; 48 hrs</span>
+          <span class="item"><b>Based</b> Remote / NA</span>
+          <span class="item"><b>Commissions</b> open</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
 </main>
 
 <footer>
-  <div class="container footer-inner">
-    <div>© 2026 Cirelay Ventures</div>
-    <div class="footer-links">
-      <a href="https://github.com/Cirelay-Ventures">GitHub</a>
-      <a href="mailto:hello@cirelay.com">Email</a>
+  <div class="container">
+    <div class="footer-card glass">
+      <div class="footer-col">
+        <a href="#top" class="wordmark">
+          <span class="glyph">C</span>
+          <span>Cirelay <span class="v">Ventures</span></span>
+        </a>
+        <span style="margin-top:10px; font-size:13px;">Practical automation for real businesses.</span>
+      </div>
+      <div class="footer-col">
+        <h5>Studio</h5>
+        <a href="#products">Products</a>
+        <a href="#why">Why</a>
+        <a href="#process">Process</a>
+      </div>
+      <div class="footer-col">
+        <h5>Talk to us</h5>
+        <a href="mailto:hello@cirelay.com">hello@cirelay.com</a>
+        <a href="https://github.com/Cirelay-Ventures">github.com/Cirelay-Ventures</a>
+      </div>
+      <div class="footer-col">
+        <h5>Edition</h5>
+        <span>03 · 2026</span>
+        <span>Set in Inter + JetBrains Mono</span>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2024–26 Cirelay Ventures. All code MIT / GPLv3.</span>
+        <span>This site is open-source too.</span>
+      </div>
     </div>
   </div>
 </footer>
+
+<!-- ─────────── product data + interactivity ─────────── -->
+<script>
+  const PRODUCTS = [
+    { id:'P·01', name:'Cirelay-Triatomine', domain:'Web scraping', stackShort:'Python · Go · Playwright',
+      version:'v1.4', status:'ok', statusLabel:'Stable',
+      tagline:'Retail pricing intelligence that survives template drift.',
+      body:[
+        'A multi-tier scraper that escalates from raw HTTP to stealth Chrome to a real logged-in browser only when it needs to — so cheap targets stay cheap and hard targets still resolve.',
+        'Adaptive selector memory keeps working when retailers redesign. Built for ops teams that need pricing data they can trust, on a schedule they control.'
+      ],
+      stack:['Python','FastAPI','Playwright','Go','PostgreSQL'],
+      license:'MIT', release:'2026-03', repo:'Cirelay-Triatomine',
+      deploy:['$ git clone github.com/Cirelay-Ventures/Cirelay-Triatomine','$ cd Cirelay-Triatomine && docker compose up']
+    },
+    { id:'P·02', name:'Cirelay-Chat', domain:'AI assistant', stackShort:'FastAPI · Ollama · ChromaDB',
+      version:'v0.9', status:'beta', statusLabel:'Beta',
+      tagline:'A local AI assistant trained on your business — never theirs.',
+      body:[
+        'Drop in your docs, FAQs, SOPs and product manuals. Cirelay-Chat answers in your voice, against your knowledge base, on hardware you own. Models run locally via Ollama; embeddings stay in ChromaDB on your box.',
+        'No usage tokens, no per-message billing, no "your data trains our model." It does not, because it cannot.'
+      ],
+      stack:['Python','FastAPI','Ollama','ChromaDB','Llama 3'],
+      license:'MIT', release:'2026-04', repo:'Cirelay-Chat',
+      deploy:['$ git clone github.com/Cirelay-Ventures/Cirelay-Chat','$ ollama pull llama3 && docker compose up']
+    },
+    { id:'P·03', name:'Cirelay-Marketplace', domain:'Marketplace ops', stackShort:'Python · Node · Selenium',
+      version:'v1.1', status:'ok', statusLabel:'Stable',
+      tagline:'List once. Sell everywhere. Re-post automatically.',
+      body:[
+        'Programmatic listing and re-listing across Facebook Marketplace and Kijiji, with a dashboard that tells you what is live, what expired, and what is performing. Built for dealers, resellers and reuse stores moving real volume.',
+        'Cookie sessions stay on your machine. There is no Cirelay cloud sitting in the middle.'
+      ],
+      stack:['Python','Node.js','Selenium','Tailwind','SQLite'],
+      license:'MIT', release:'2026-01', repo:'Cirelay-Marketplace',
+      deploy:['$ git clone github.com/Cirelay-Ventures/Cirelay-Marketplace','$ npm install && npm run start']
+    },
+    { id:'P·04', name:'Cirelay-ERP', domain:'ERP / inventory', stackShort:'Frappe · ERPNext · WooCommerce',
+      version:'v2.0', status:'ok', statusLabel:'Stable',
+      tagline:'ERPNext, tuned for the way SMB retail actually runs.',
+      body:[
+        'A Frappe/ERPNext deployment with the rough edges sanded down: WooCommerce product, order and inventory sync; custom workflows for purchase, returns and supplier on-boarding; opinionated defaults for retail.',
+        'You self-host it. We do the painful customization once. After that, it is just ERPNext — auditable, forkable, yours.'
+      ],
+      stack:['Python','Frappe','ERPNext','WooCommerce','MariaDB'],
+      license:'GPLv3', release:'2026-02', repo:'Cirelay-ERP',
+      deploy:['$ git clone github.com/Cirelay-Ventures/Cirelay-ERP','$ ./bench setup && ./bench start']
+    },
+    { id:'P·05', name:'Cirelay-Inventory', domain:'Inventory & POS', stackShort:'PHP · Laravel · Android',
+      version:'v1.2', status:'ok', statusLabel:'Stable',
+      tagline:'A barcode-driven stock system with a phone in your pocket.',
+      body:[
+        'Stock, suppliers, customers and sales in one place — plus a companion Android scanner app so the warehouse can stop printing receipts. EAN13 by default, but it speaks whatever your labels speak.',
+        'Forked from the MIT-licensed Inventory-Stock-With-Scanner project and quietly hardened for production.'
+      ],
+      stack:['PHP','Laravel','Android','EAN13','MySQL'],
+      license:'MIT', release:'2025-12', repo:'Cirelay-Inventory',
+      deploy:['$ git clone github.com/Cirelay-Ventures/Cirelay-Inventory','$ php artisan migrate && php artisan serve']
+    }
+  ];
+
+  const body = document.getElementById('indexBody');
+  PRODUCTS.forEach((p, i) => {
+    const row = document.createElement('div');
+    row.className = 'index-row';
+    row.setAttribute('role', 'row');
+    row.innerHTML = `
+      <div class="id">${p.id}</div>
+      <div class="name">${p.name}</div>
+      <div class="domain">${p.domain}</div>
+      <div class="stack">${p.stackShort}</div>
+      <div class="status ${p.status}"><span class="dot"></span>${p.statusLabel} · ${p.version}</div>
+      <div class="chev">→</div>
+    `;
+    row.addEventListener('click', () => selectProduct(i));
+    body.appendChild(row);
+  });
+
+  const spec = document.getElementById('spec');
+  function selectProduct(i) {
+    const p = PRODUCTS[i];
+    document.querySelectorAll('.index-row').forEach((el, j) => el.classList.toggle('active', j === i));
+    spec.innerHTML = `
+      <div class="spec-l glass hi">
+        <div class="spec-crumb">
+          <span class="pill">${p.id}</span>
+          <span class="arr">/</span>
+          <span>${p.domain}</span>
+          <span class="arr">/</span>
+          <span>Cirelay-Ventures / ${p.repo}</span>
+        </div>
+        <h3 class="spec-title">${p.name}</h3>
+        <p class="spec-tagline">${p.tagline}</p>
+        <div class="spec-body">${p.body.map(t => `<p>${t}</p>`).join('')}</div>
+        <div class="spec-actions">
+          <a href="https://github.com/Cirelay-Ventures/${p.repo}" target="_blank" rel="noopener" class="pill-btn solid"><span>View on GitHub</span><span class="arr">↗</span></a>
+          <a href="mailto:hello@cirelay.com?subject=${encodeURIComponent('Cirelay - ' + p.name)}" class="pill-btn ghost"><span>Commission a fork</span><span class="arr">→</span></a>
+        </div>
+      </div>
+      <aside class="spec-r glass" aria-label="${p.name} specifications">
+        <div class="heading"><span>Spec sheet</span><span class="badge">${p.id}</span></div>
+        <dl>
+          <dt>Domain</dt>    <dd>${p.domain}</dd>
+          <dt>Status</dt>    <dd>${p.statusLabel} · ${p.version}</dd>
+          <dt>Release</dt>   <dd>${p.release}</dd>
+          <dt>License</dt>   <dd>${p.license}</dd>
+          <dt>Hosting</dt>   <dd>Self-host only</dd>
+          <dt>Stack</dt>     <dd><div class="chiprow">${p.stack.map(s => `<span class="chip">${s}</span>`).join('')}</div></dd>
+        </dl>
+        <div class="spec-cmd">
+          <div class="lbl">Quickstart</div>
+          <code>${p.deploy.map(l => `<span class="prompt">${l[0]}</span>${l.slice(1)}`).join('\n')}</code>
+        </div>
+      </aside>
+    `;
+  }
+  selectProduct(0);
+</script>
 
 </body>
 </html>
