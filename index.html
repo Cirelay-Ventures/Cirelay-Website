@@ -867,6 +867,74 @@
   }
   .footer-bottom .wordmark { font-size: 14px; }
 
+  
+  /* ─────────── ROADMAP grid ─────────── */
+  .roadmap-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 14px;
+  }
+  .roadmap-card {
+    padding: 22px;
+    border-radius: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: transform .2s ease, box-shadow .2s ease;
+    position: relative;
+    overflow: hidden;
+    color: var(--on-glass);
+  }
+  .roadmap-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--g-shadow-lg);
+  }
+  .roadmap-card .rm-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .roadmap-card .rm-domain {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--on-glass-3);
+    font-weight: 500;
+  }
+  .roadmap-card .rm-status {
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: .12em;
+    padding: 3px 8px;
+    border-radius: 999px;
+    background: rgba(245,158,11,.16);
+    border: 1px solid rgba(245,158,11,.34);
+    color: #a86508;
+  }
+  :root[data-tint="ink"] .roadmap-card .rm-status { color: #fbbf49; }
+  .roadmap-card h3 {
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: -.018em;
+    line-height: 1.2;
+  }
+  .roadmap-card h3 a {
+    color: var(--on-glass);
+    text-decoration: none;
+  }
+  .roadmap-card h3 a:hover { background: linear-gradient(120deg, var(--orb2), var(--orb1)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+  .roadmap-card p {
+    font-size: 13.5px;
+    color: var(--on-glass-2);
+    line-height: 1.5;
+    margin: 0;
+  }
+  @media (max-width: 640px) {
+    .roadmap-grid { grid-template-columns: 1fr; }
+  }
+
   /* ─────────── responsive ─────────── */
   @media (max-width: 980px) {
     .spec { grid-template-columns: 1fr; }
@@ -910,6 +978,7 @@
     <nav class="main">
       <ul>
         <li><a href="#products">Products</a></li>
+        <li><a href="#roadmap">In dev</a></li>
         <li><a href="#why">Why</a></li>
         <li><a href="#process">Process</a></li>
         <li><a href="#contact">Contact</a></li>
@@ -948,8 +1017,8 @@
 
         <div class="hero-stats glass hi lg">
           <div class="hero-stat">
-            <div class="n"><span class="grad">05</span></div>
-            <div class="lbl">Products shipped &amp; maintained</div>
+            <div class="n"><span class="grad">25</span></div>
+            <div class="lbl">Products shipped or in development</div>
           </div>
           <div class="hero-stat">
             <div class="n">100<span class="unit">%</span></div>
@@ -988,11 +1057,185 @@
     </div>
   </section>
 
+  <!-- ─────────── ROADMAP ─────────── -->
+  <section class="sec" id="roadmap">
+    <div class="container">
+      <div class="sec-head">
+        <span class="sec-eyebrow"><span class="dot"></span>02 — In development</span>
+        <h2 class="sec-title">Twenty more <span class="grad">in the pipeline.</span></h2>
+        <p class="sec-sub">Scaffolded and committed, in active development, building toward v0.1. Browse, suggest a direction, or commission early access.</p>
+      </div>
+
+      <div class="roadmap-grid">
+        <article class="roadmap-card glass">
+          <div class="rm-head">
+            <span class="rm-domain">Point of sale</span>
+            <span class="rm-status">DEV</span>
+          </div>
+          <h3><a href="https://github.com/Cirelay-Ventures/Cirelay-POS" target="_blank" rel="noopener">Cirelay-POS</a></h3>
+          <p>A barcode-driven point of sale that talks to your inventory in real time.</p>
+        </article>
+        <article class="roadmap-card glass">
+          <div class="rm-head">
+            <span class="rm-domain">Stock automation</span>
+            <span class="rm-status">DEV</span>
+          </div>
+          <h3><a href="https://github.com/Cirelay-Ventures/Cirelay-Reorder" target="_blank" rel="noopener">Cirelay-Reorder</a></h3>
+          <p>Auto-reorder inventory when stock drops below thresholds you actually set.</p>
+        </article>
+        <article class="roadmap-card glass">
+          <div class="rm-head">
+            <span class="rm-domain">Product imagery</span>
+            <span class="rm-status">DEV</span>
+          </div>
+          <h3><a href="https://github.com/Cirelay-Ventures/Cirelay-Photos" target="_blank" rel="noopener">Cirelay-Photos</a></h3>
+          <p>Background removal, cropping, and watermarking for product photography — at scale.</p>
+        </article>
+        <article class="roadmap-card glass">
+          <div class="rm-head">
+            <span class="rm-domain">Competitor monitoring</span>
+            <span class="rm-status">DEV</span>
+          </div>
+          <h3><a href="https://github.com/Cirelay-Ventures/Cirelay-Pricing" target="_blank" rel="noopener">Cirelay-Pricing</a></h3>
+          <p>Watch competitor prices on the products you sell. Get pinged when they move.</p>
+        </article>
+        <article class="roadmap-card glass">
+          <div class="rm-head">
+            <span class="rm-domain">Returns workflow</span>
+            <span class="rm-status">DEV</span>
+          </div>
+          <h3><a href="https://github.com/Cirelay-Ventures/Cirelay-Returns" target="_blank" rel="noopener">Cirelay-Returns</a></h3>
+          <p>RMA tracking and refund workflows for stores that take a lot of returns.</p>
+        </article>
+        <article class="roadmap-card glass">
+          <div class="rm-head">
+            <span class="rm-domain">Appointment scheduling</span>
+            <span class="rm-status">DEV</span>
+          </div>
+          <h3><a href="https://github.com/Cirelay-Ventures/Cirelay-Booking" target="_blank" rel="noopener">Cirelay-Booking</a></h3>
+          <p>Self-hosted appointment booking. Your customers, your calendar, your data.</p>
+        </article>
+        <article class="roadmap-card glass">
+          <div class="rm-head">
+            <span class="rm-domain">Reputation</span>
+            <span class="rm-status">DEV</span>
+          </div>
+          <h3><a href="https://github.com/Cirelay-Ventures/Cirelay-Reviews" target="_blank" rel="noopener">Cirelay-Reviews</a></h3>
+          <p>Aggregate reviews across Google, Yelp, Facebook into one feed you control.</p>
+        </article>
+        <article class="roadmap-card glass">
+          <div class="rm-head">
+            <span class="rm-domain">Customer loyalty</span>
+            <span class="rm-status">DEV</span>
+          </div>
+          <h3><a href="https://github.com/Cirelay-Ventures/Cirelay-Loyalty" target="_blank" rel="noopener">Cirelay-Loyalty</a></h3>
+          <p>A punch-card / points loyalty program that doesn't share your customer list with a vendor.</p>
+        </article>
+        <article class="roadmap-card glass">
+          <div class="rm-head">
+            <span class="rm-domain">Quotes & estimates</span>
+            <span class="rm-status">DEV</span>
+          </div>
+          <h3><a href="https://github.com/Cirelay-Ventures/Cirelay-Quotes" target="_blank" rel="noopener">Cirelay-Quotes</a></h3>
+          <p>Quote and estimate generation for trade services and project-based work.</p>
+        </article>
+        <article class="roadmap-card glass">
+          <div class="rm-head">
+            <span class="rm-domain">Forms & intake</span>
+            <span class="rm-status">DEV</span>
+          </div>
+          <h3><a href="https://github.com/Cirelay-Ventures/Cirelay-Forms" target="_blank" rel="noopener">Cirelay-Forms</a></h3>
+          <p>Embeddable forms with a self-hosted webhook backend. Bring-your-own-database.</p>
+        </article>
+        <article class="roadmap-card glass">
+          <div class="rm-head">
+            <span class="rm-domain">Email automation</span>
+            <span class="rm-status">DEV</span>
+          </div>
+          <h3><a href="https://github.com/Cirelay-Ventures/Cirelay-Drip" target="_blank" rel="noopener">Cirelay-Drip</a></h3>
+          <p>Drip email campaigns from a CSV. No per-contact pricing.</p>
+        </article>
+        <article class="roadmap-card glass">
+          <div class="rm-head">
+            <span class="rm-domain">Customer relationships</span>
+            <span class="rm-status">DEV</span>
+          </div>
+          <h3><a href="https://github.com/Cirelay-Ventures/Cirelay-CRM" target="_blank" rel="noopener">Cirelay-CRM</a></h3>
+          <p>A minimal CRM for teams that hate CRMs.</p>
+        </article>
+        <article class="roadmap-card glass">
+          <div class="rm-head">
+            <span class="rm-domain">Time tracking</span>
+            <span class="rm-status">DEV</span>
+          </div>
+          <h3><a href="https://github.com/Cirelay-Ventures/Cirelay-Time" target="_blank" rel="noopener">Cirelay-Time</a></h3>
+          <p>Time tracking for freelancers and agencies that bill by the hour.</p>
+        </article>
+        <article class="roadmap-card glass">
+          <div class="rm-head">
+            <span class="rm-domain">Staff scheduling</span>
+            <span class="rm-status">DEV</span>
+          </div>
+          <h3><a href="https://github.com/Cirelay-Ventures/Cirelay-Shifts" target="_blank" rel="noopener">Cirelay-Shifts</a></h3>
+          <p>Shift scheduling for retail and hospitality.</p>
+        </article>
+        <article class="roadmap-card glass">
+          <div class="rm-head">
+            <span class="rm-domain">Business reports</span>
+            <span class="rm-status">DEV</span>
+          </div>
+          <h3><a href="https://github.com/Cirelay-Ventures/Cirelay-Reports" target="_blank" rel="noopener">Cirelay-Reports</a></h3>
+          <p>Automated daily/weekly business reports — straight to your inbox.</p>
+        </article>
+        <article class="roadmap-card glass">
+          <div class="rm-head">
+            <span class="rm-domain">Backups</span>
+            <span class="rm-status">DEV</span>
+          </div>
+          <h3><a href="https://github.com/Cirelay-Ventures/Cirelay-Backup" target="_blank" rel="noopener">Cirelay-Backup</a></h3>
+          <p>Encrypted off-site backups for the boxes your business runs on.</p>
+        </article>
+        <article class="roadmap-card glass">
+          <div class="rm-head">
+            <span class="rm-domain">Authentication</span>
+            <span class="rm-status">DEV</span>
+          </div>
+          <h3><a href="https://github.com/Cirelay-Ventures/Cirelay-Auth" target="_blank" rel="noopener">Cirelay-Auth</a></h3>
+          <p>Self-hosted SSO for the small business software stack.</p>
+        </article>
+        <article class="roadmap-card glass">
+          <div class="rm-head">
+            <span class="rm-domain">Integration plumbing</span>
+            <span class="rm-status">DEV</span>
+          </div>
+          <h3><a href="https://github.com/Cirelay-Ventures/Cirelay-Webhook" target="_blank" rel="noopener">Cirelay-Webhook</a></h3>
+          <p>A webhook hub for routing events between SMB tools.</p>
+        </article>
+        <article class="roadmap-card glass">
+          <div class="rm-head">
+            <span class="rm-domain">Notifications</span>
+            <span class="rm-status">DEV</span>
+          </div>
+          <h3><a href="https://github.com/Cirelay-Ventures/Cirelay-Notify" target="_blank" rel="noopener">Cirelay-Notify</a></h3>
+          <p>One API, many channels. Send SMS, email, Slack, Discord, webhook from one place.</p>
+        </article>
+        <article class="roadmap-card glass">
+          <div class="rm-head">
+            <span class="rm-domain">Secrets management</span>
+            <span class="rm-status">DEV</span>
+          </div>
+          <h3><a href="https://github.com/Cirelay-Ventures/Cirelay-Vault" target="_blank" rel="noopener">Cirelay-Vault</a></h3>
+          <p>Encrypted credentials manager for the operator running 6 self-hosted services.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
   <!-- ─────────── WHY ─────────── -->
   <section class="sec" id="why">
     <div class="container">
       <div class="sec-head">
-        <span class="sec-eyebrow"><span class="dot"></span>02 — Position</span>
+        <span class="sec-eyebrow"><span class="dot"></span>03 — Position</span>
         <h2 class="sec-title">Why <span class="grad">Cirelay.</span><br>And why not the others.</h2>
         <p class="sec-sub">A clear contrast between what most SaaS-for-SMB does, and what we do differently.</p>
       </div>
@@ -1026,7 +1269,7 @@
   <section class="sec" id="process">
     <div class="container">
       <div class="sec-head">
-        <span class="sec-eyebrow"><span class="dot"></span>03 — Engagement</span>
+        <span class="sec-eyebrow"><span class="dot"></span>04 — Engagement</span>
         <h2 class="sec-title">From email to <span class="grad">deployed.</span></h2>
         <p class="sec-sub">Four steps, two to six weeks. No drawn-out discovery phases, no fake urgency.</p>
       </div>
