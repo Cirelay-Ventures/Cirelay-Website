@@ -1,0 +1,655 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cirelay Ventures — Practical automation for real businesses</title>
+<meta name="description" content="Cirelay Ventures builds self-hosted automation tools for small and mid-size businesses. Web scraping, AI assistants, ERP integrations, inventory, marketplace listing. Privacy-first, no API lock-in.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #070a16;
+    --bg-elevated: #0f1426;
+    --surface: #13182a;
+    --border: #1f2740;
+    --border-bright: #2a3454;
+    --text: #e7ecf5;
+    --text-dim: #9aa3b8;
+    --text-faint: #6b7390;
+    --accent: #5eead4;
+    --accent-bright: #99f6e4;
+    --accent-glow: rgba(94, 234, 212, 0.18);
+    --gradient: linear-gradient(135deg, #5eead4 0%, #38bdf8 50%, #818cf8 100%);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  /* Subtle grid background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(94, 234, 212, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(94, 234, 212, 0.03) 1px, transparent 1px);
+    background-size: 64px 64px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Radial glow behind hero */
+  body::after {
+    content: '';
+    position: fixed;
+    top: -20%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 1200px;
+    height: 800px;
+    background: radial-gradient(ellipse, rgba(94, 234, 212, 0.08) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  main, header, footer { position: relative; z-index: 1; }
+
+  .container {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+
+  /* Header */
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    background: rgba(7, 10, 22, 0.75);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 0;
+  }
+
+  .wordmark {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 700;
+    font-size: 17px;
+    letter-spacing: -0.01em;
+    color: var(--text);
+    text-decoration: none;
+  }
+
+  .wordmark .mark {
+    width: 22px;
+    height: 22px;
+    background: var(--gradient);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    color: var(--bg);
+    font-size: 13px;
+  }
+
+  nav ul {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+
+  nav a {
+    color: var(--text-dim);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+
+  nav a:hover { color: var(--text); }
+
+  /* Hero */
+  .hero {
+    padding: 120px 0 100px;
+    text-align: center;
+  }
+
+  .eyebrow {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    padding: 6px 14px;
+    border: 1px solid var(--border-bright);
+    border-radius: 999px;
+    background: var(--accent-glow);
+    margin-bottom: 28px;
+  }
+
+  h1 {
+    font-size: clamp(40px, 7vw, 76px);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+    margin-bottom: 24px;
+  }
+
+  h1 .grad {
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .hero p.sub {
+    font-size: 19px;
+    color: var(--text-dim);
+    max-width: 620px;
+    margin: 0 auto 40px;
+    line-height: 1.55;
+  }
+
+  .cta-row {
+    display: flex;
+    gap: 14px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 13px 24px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s;
+    border: 1px solid transparent;
+    cursor: pointer;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: var(--bg);
+  }
+
+  .btn-primary:hover {
+    background: var(--accent-bright);
+    transform: translateY(-1px);
+    box-shadow: 0 8px 24px var(--accent-glow);
+  }
+
+  .btn-ghost {
+    color: var(--text);
+    border-color: var(--border-bright);
+  }
+
+  .btn-ghost:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  /* Section */
+  section {
+    padding: 80px 0;
+  }
+
+  .section-head {
+    margin-bottom: 56px;
+    text-align: center;
+  }
+
+  .section-head h2 {
+    font-size: clamp(28px, 4vw, 42px);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 14px;
+  }
+
+  .section-head p {
+    color: var(--text-dim);
+    font-size: 17px;
+    max-width: 540px;
+    margin: 0 auto;
+  }
+
+  /* Product grid */
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 20px;
+  }
+
+  .card {
+    position: relative;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 30px;
+    transition: all 0.25s;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at top right, var(--accent-glow), transparent 50%);
+    opacity: 0;
+    transition: opacity 0.25s;
+    pointer-events: none;
+  }
+
+  .card:hover {
+    border-color: var(--border-bright);
+    transform: translateY(-2px);
+  }
+
+  .card:hover::before { opacity: 1; }
+
+  .card-glyph {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, var(--bg-elevated), var(--surface));
+    border: 1px solid var(--border-bright);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent);
+    margin-bottom: 22px;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: 17px;
+  }
+
+  .card h3 {
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin-bottom: 10px;
+  }
+
+  .card .tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--text-faint);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 14px;
+    display: block;
+  }
+
+  .card p.desc {
+    color: var(--text-dim);
+    font-size: 15px;
+    line-height: 1.55;
+    margin-bottom: 22px;
+    flex: 1;
+  }
+
+  .chip-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 22px;
+  }
+
+  .chip {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--text-dim);
+    background: var(--bg-elevated);
+    padding: 4px 10px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+  }
+
+  .card-link {
+    color: var(--accent);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: gap 0.2s;
+    align-self: flex-start;
+  }
+
+  .card-link:hover { gap: 10px; }
+
+  .card-link::after {
+    content: '→';
+    transition: transform 0.2s;
+  }
+
+  /* About */
+  .about {
+    background: var(--bg-elevated);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .about-inner {
+    max-width: 720px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .about p {
+    font-size: 18px;
+    color: var(--text-dim);
+    margin-bottom: 18px;
+    line-height: 1.65;
+  }
+
+  .about p strong {
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  .principles {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 24px;
+    margin-top: 48px;
+    text-align: left;
+  }
+
+  .principle {
+    padding: 24px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+  }
+
+  .principle h4 {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--accent);
+    font-family: 'JetBrains Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .principle p {
+    color: var(--text-dim);
+    font-size: 14px;
+    margin: 0;
+  }
+
+  /* Contact */
+  .contact {
+    text-align: center;
+  }
+
+  .contact h2 {
+    font-size: clamp(28px, 4vw, 42px);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 18px;
+  }
+
+  .contact p.sub {
+    color: var(--text-dim);
+    font-size: 17px;
+    margin-bottom: 36px;
+  }
+
+  .email-link {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--accent);
+    text-decoration: none;
+    padding: 18px 36px;
+    border: 1px solid var(--border-bright);
+    border-radius: 12px;
+    background: var(--surface);
+    transition: all 0.2s;
+  }
+
+  .email-link:hover {
+    border-color: var(--accent);
+    background: var(--accent-glow);
+    transform: translateY(-1px);
+  }
+
+  /* Footer */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 40px 0;
+    color: var(--text-faint);
+    font-size: 13px;
+  }
+
+  .footer-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  footer a {
+    color: var(--text-dim);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  footer a:hover { color: var(--accent); }
+
+  .footer-links {
+    display: flex;
+    gap: 24px;
+  }
+
+  /* Mobile */
+  @media (max-width: 720px) {
+    .container { padding: 0 22px; }
+    nav ul { gap: 20px; }
+    .hero { padding: 80px 0 60px; }
+    section { padding: 60px 0; }
+  }
+
+  @media (max-width: 520px) {
+    nav { display: none; }
+    .product-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container header-inner">
+    <a href="#" class="wordmark">
+      <span class="mark">C</span>
+      <span>Cirelay Ventures</span>
+    </a>
+    <nav>
+      <ul>
+        <li><a href="#products">Products</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><a href="https://github.com/Cirelay-Ventures">GitHub</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="container">
+      <span class="eyebrow">Self-hosted · Open-source · Built for SMB</span>
+      <h1>Practical automation<br>for <span class="grad">real businesses</span></h1>
+      <p class="sub">Cirelay Ventures builds tools for the businesses that don't have time for tech bullshit. Run them on your own server. Own your data. No per-seat pricing.</p>
+      <div class="cta-row">
+        <a href="#products" class="btn btn-primary">Explore products →</a>
+        <a href="#contact" class="btn btn-ghost">Get in touch</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="products">
+    <div class="container">
+      <div class="section-head">
+        <h2>Five tools, one toolkit</h2>
+        <p>Each product is open-source on GitHub. Self-host, modify, or hire us to customize.</p>
+      </div>
+
+      <div class="product-grid">
+
+        <article class="card">
+          <div class="card-glyph">⌬</div>
+          <span class="tag">Web Scraping</span>
+          <h3>Cirelay-Triatomine</h3>
+          <p class="desc">Multi-tier scraper for retail pricing intelligence. Tier escalation from raw HTTP through stealth Chrome to a real logged-in browser. Adaptive selector memory survives template drift.</p>
+          <div class="chip-row">
+            <span class="chip">Python</span>
+            <span class="chip">FastAPI</span>
+            <span class="chip">Playwright</span>
+            <span class="chip">Go</span>
+          </div>
+          <a href="https://github.com/Cirelay-Ventures/Cirelay-Triatomine" class="card-link">View on GitHub</a>
+        </article>
+
+        <article class="card">
+          <div class="card-glyph">◐</div>
+          <span class="tag">AI Assistant</span>
+          <h3>Cirelay-Chat</h3>
+          <p class="desc">Local AI chatbot for your business knowledge base. FastAPI + Ollama + ChromaDB. Privacy-first — your data never leaves your server. Train it on your docs, processes, FAQs.</p>
+          <div class="chip-row">
+            <span class="chip">Python</span>
+            <span class="chip">FastAPI</span>
+            <span class="chip">Ollama</span>
+            <span class="chip">ChromaDB</span>
+          </div>
+          <a href="https://github.com/Cirelay-Ventures/Cirelay-Chat" class="card-link">View on GitHub</a>
+        </article>
+
+        <article class="card">
+          <div class="card-glyph">◇</div>
+          <span class="tag">Marketplace</span>
+          <h3>Cirelay-Marketplace</h3>
+          <p class="desc">List once, sell everywhere. Automated listing creation across Facebook Marketplace and Kijiji. Programmatic ad management with dashboard for tracking active listings.</p>
+          <div class="chip-row">
+            <span class="chip">Python</span>
+            <span class="chip">Node.js</span>
+            <span class="chip">Selenium</span>
+            <span class="chip">Tailwind</span>
+          </div>
+          <a href="https://github.com/Cirelay-Ventures/Cirelay-Marketplace" class="card-link">View on GitHub</a>
+        </article>
+
+        <article class="card">
+          <div class="card-glyph">⊞</div>
+          <span class="tag">ERP</span>
+          <h3>Cirelay-ERP</h3>
+          <p class="desc">ERPNext customized for retail and SMB. WooCommerce product/order/inventory sync with workflow automations. Self-hostable Frappe stack with custom fields and integrations.</p>
+          <div class="chip-row">
+            <span class="chip">Python</span>
+            <span class="chip">Frappe</span>
+            <span class="chip">ERPNext</span>
+            <span class="chip">WooCommerce</span>
+          </div>
+          <a href="https://github.com/Cirelay-Ventures/Cirelay-ERP" class="card-link">View on GitHub</a>
+        </article>
+
+        <article class="card">
+          <div class="card-glyph">⊟</div>
+          <span class="tag">Inventory</span>
+          <h3>Cirelay-Inventory</h3>
+          <p class="desc">Stock management with barcode scanning and a companion Android app. Track products, suppliers, customers, sales. Built on the proven MIT-licensed Inventory-Stock-With-Scanner foundation.</p>
+          <div class="chip-row">
+            <span class="chip">PHP</span>
+            <span class="chip">Laravel</span>
+            <span class="chip">Android</span>
+            <span class="chip">EAN13</span>
+          </div>
+          <a href="https://github.com/Cirelay-Ventures/Cirelay-Inventory" class="card-link">View on GitHub</a>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <section id="about" class="about">
+    <div class="container about-inner">
+      <h2 class="section-head" style="margin-bottom:24px;">Why Cirelay</h2>
+      <p>Most SaaS tools for small businesses are <strong>too expensive</strong>, <strong>too generic</strong>, or <strong>hold your data hostage</strong>. We build the opposite: tools you host on your own server, tools you can modify, tools you actually own.</p>
+      <p>If a stock product fits your business, great. If it doesn't, we customize. If we don't make it yet, we'll build it.</p>
+
+      <div class="principles">
+        <div class="principle">
+          <h4>Self-hosted</h4>
+          <p>Run everything on your infrastructure. Your data stays on your server.</p>
+        </div>
+        <div class="principle">
+          <h4>Open source</h4>
+          <p>Every product is on GitHub. Read the code, fork it, modify it, audit it.</p>
+        </div>
+        <div class="principle">
+          <h4>No lock-in</h4>
+          <p>No per-seat pricing. No vendor-managed APIs. You stop paying us, your stack keeps running.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="contact">
+    <div class="container">
+      <h2>Let's talk</h2>
+      <p class="sub">Need a custom build? Stuck on integration? Have a problem we haven't solved yet?</p>
+      <a href="mailto:hello@cirelay.com" class="email-link">hello@cirelay.com</a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="container footer-inner">
+    <div>© 2026 Cirelay Ventures</div>
+    <div class="footer-links">
+      <a href="https://github.com/Cirelay-Ventures">GitHub</a>
+      <a href="mailto:hello@cirelay.com">Email</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
