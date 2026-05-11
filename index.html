@@ -494,8 +494,8 @@
     gap: 24px;
     min-height: 460px;
   }
-  .spec-l, .spec-r { border-radius: 28px; padding: 32px; }
-  .spec-l { display: flex; flex-direction: column; gap: 22px; }
+  .spec-l, .spec-r { border-radius: 28px; padding: 32px; min-width: 0; }
+  .spec-l { display: flex; flex-direction: column; gap: 22px; min-width: 0; }
 
   .spec-crumb {
     display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
@@ -589,7 +589,7 @@
   }
   :root[data-tint="ink"] .spec-r .chip { background: rgba(255,255,255,.08); }
 
-  .spec-cmd { display: flex; flex-direction: column; gap: 8px; }
+  .spec-cmd { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
   .spec-cmd .lbl {
     font-family: var(--mono);
     font-size: 10.5px;
@@ -609,6 +609,7 @@
     line-height: 1.55;
     white-space: pre;
     overflow-x: auto;
+    max-width: 100%;
     border: 1px solid rgba(255,255,255,.06);
     box-shadow: 0 1px 0 rgba(255,255,255,.06) inset;
   }
