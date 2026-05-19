@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Cirelay Ventures — Self-hosted automation for real businesses</title>
-<meta name="description" content="Cirelay Ventures builds open-source, self-hosted automation tools for small and mid-size businesses.">
+<title>Cirelay Ventures | Marketplace Account Management and Automation</title>
+<meta name="description" content="Cirelay Ventures provides Amazon and Walmart marketplace account management plus self-hosted automation for catalog, inventory, reporting, and operations.">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -412,6 +412,86 @@
     color: var(--on-glass-3);
     max-width: 56ch;
     line-height: 1.55;
+  }
+
+  .service-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+  }
+  .service-panel {
+    padding: 26px;
+    border-radius: 24px;
+    min-height: 260px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .service-panel h3 {
+    font-size: 22px;
+    line-height: 1.12;
+    letter-spacing: -.02em;
+    color: var(--on-glass);
+  }
+  .service-panel p {
+    color: var(--on-glass-2);
+    font-size: 14.5px;
+    line-height: 1.55;
+  }
+  .service-panel ul {
+    list-style: none;
+    display: grid;
+    gap: 9px;
+    margin-top: auto;
+  }
+  .service-panel li {
+    display: grid;
+    grid-template-columns: 20px 1fr;
+    gap: 9px;
+    color: var(--on-glass-2);
+    font-size: 13.5px;
+    line-height: 1.45;
+  }
+  .service-panel li::before {
+    content: "";
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--orb2), var(--orb1));
+    margin-top: .55em;
+  }
+  .service-proof {
+    margin-top: 18px;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    overflow: hidden;
+    border-radius: 28px;
+  }
+  .proof-cell {
+    padding: 22px;
+    border-left: 1px solid var(--g-stroke-2);
+  }
+  .proof-cell:first-child { border-left: 0; }
+  .proof-cell b {
+    display: block;
+    color: var(--on-glass);
+    font-size: 17px;
+    letter-spacing: -.015em;
+  }
+  .proof-cell span {
+    display: block;
+    margin-top: 8px;
+    color: var(--on-glass-3);
+    font-size: 12px;
+    line-height: 1.45;
+  }
+  .service-note {
+    margin: 18px auto 0;
+    max-width: 72ch;
+    color: var(--on-glass-3);
+    font-size: 13px;
+    line-height: 1.55;
+    text-align: center;
   }
 
   /* ─────────── PRODUCT INDEX (glass cards stacked) ─────────── */
@@ -938,6 +1018,9 @@
 
   /* ─────────── responsive ─────────── */
   @media (max-width: 980px) {
+    .service-grid { grid-template-columns: 1fr; }
+    .service-proof { grid-template-columns: 1fr 1fr; }
+    .proof-cell:nth-child(3) { border-left: 0; }
     .spec { grid-template-columns: 1fr; }
     .why-grid { grid-template-columns: 1fr; }
     .process { grid-template-columns: 1fr 1fr; }
@@ -953,6 +1036,9 @@
     nav.main { display: none; }
     .nav-pill { grid-template-columns: auto auto; }
     .process { grid-template-columns: 1fr; }
+    .service-proof { grid-template-columns: 1fr; }
+    .proof-cell { border-left: 0; border-top: 1px solid var(--g-stroke-2); }
+    .proof-cell:first-child { border-top: 0; }
     .index-row { grid-template-columns: 50px 1fr 90px 28px; gap: 12px; padding: 12px 14px; }
     .index-row .stack { display: none; }
     .spec-l, .spec-r, .contact-card { padding: 26px; }
@@ -978,16 +1064,18 @@
     </a>
     <nav class="main">
       <ul>
+        <li><a href="marketplace-account-management.html">Account Management</a></li>
         <li><a href="#products">Products</a></li>
         <li><a href="#roadmap">In dev</a></li>
         <li><a href="#why">Why</a></li>
         <li><a href="#process">Process</a></li>
+        <li><a href="privacy.html">Privacy</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
     </nav>
     <div style="display:flex; gap:8px; align-items:center;">
-      <a href="https://app.cirelay.com/sign-in" class="pill-btn ghost"><span>Sign in</span></a>
-      <a href="https://app.cirelay.com/sign-up" class="pill-btn solid"><span>Sign up</span><span class="arr">→</span></a>
+      <a href="mailto:hello@cirelay.com?subject=Marketplace%20account%20management%20scope" class="pill-btn ghost"><span>Contact</span></a>
+      <a href="marketplace-account-management.html" class="pill-btn solid"><span>Account management</span><span class="arr">&rarr;</span></a>
     </div>
   </div>
 </div>
@@ -1001,41 +1089,107 @@
 
         <span class="status-chip">
           <span class="dot"></span>
-          Open for commissions · response &lt; 48h
+          Amazon and Walmart account management pilots open
         </span>
 
         <h1 class="hero-h">
-          Trade in the problem. <span class="grad">Take home the solution.</span>
+          Marketplace operations. <span class="grad">Automation that keeps pace.</span>
         </h1>
 
         <p class="hero-sub">
-          Cirelay Ventures builds <strong>custom</strong>, <strong>self-hosted</strong> automation for the small and mid-size businesses that don't have time for tech theatre. Trade in your problem — we ship the solution. <strong>First build is on us.</strong> $20/mo unlocks the rest of our 25-tool library.
+          Cirelay Ventures provides <strong>marketplace account management</strong> for Amazon and Walmart sellers, plus <strong>self-hosted automation</strong> for catalog, inventory, reporting, and operating workflows. Seller access stays scoped, documented, and removable.
         </p>
 
         <div class="hero-cta">
-          <a href="https://app.cirelay.com/sign-up" class="pill-btn solid"><span>Start free trial</span><span class="arr">→</span></a>
-          <a href="#products" class="pill-btn ghost"><span>Browse the toolkit</span><span class="arr">→</span></a>
+          <a href="marketplace-account-management.html" class="pill-btn solid"><span>Account management</span><span class="arr">&rarr;</span></a>
+          <a href="#products" class="pill-btn ghost"><span>Browse automation toolkit</span><span class="arr">&rarr;</span></a>
         </div>
 
         <div class="hero-stats glass hi lg">
           <div class="hero-stat">
-            <div class="n"><span class="grad">25</span></div>
-            <div class="lbl">Tools in the library</div>
+            <div class="n"><span class="grad">Amazon</span></div>
+            <div class="lbl">Seller account approved</div>
           </div>
           <div class="hero-stat">
-            <div class="n">$0<span class="unit"> / build</span></div>
-            <div class="lbl">First custom tool is free</div>
+            <div class="n">Walmart</div>
+            <div class="lbl">Seller account approved</div>
           </div>
           <div class="hero-stat">
-            <div class="n">&lt;48<span class="unit">h</span></div>
-            <div class="lbl">Average response time</div>
+            <div class="n">Scoped</div>
+            <div class="lbl">Seller-controlled access</div>
           </div>
           <div class="hero-stat">
-            <div class="n">$20<span class="unit"> / mo</span></div>
-            <div class="lbl">Unlock the whole library</div>
+            <div class="n">Quoted</div>
+            <div class="lbl">Written scope before paid work</div>
           </div>
         </div>
 
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="account-management">
+    <div class="container">
+      <div class="sec-head">
+        <span class="sec-eyebrow"><span class="dot"></span>01 - Account Management</span>
+        <h2 class="sec-title">Seller Central support with <span class="grad">clear controls.</span></h2>
+        <p class="sec-sub">Public service details for Amazon and Walmart sellers, including what we manage, when access is requested, pricing approach, proof, and data handling practices.</p>
+      </div>
+
+      <div class="service-grid">
+        <article class="service-panel glass">
+          <h3>Marketplace account operations</h3>
+          <p>Seller account support for account-health review, verification tasks, policy notice tracking, listing readiness, and weekly operating cadence.</p>
+          <ul>
+            <li>Amazon Seller Central and Walmart Marketplace setup checklists</li>
+            <li>Account-health dashboard review and action logs</li>
+            <li>Seller-approved response drafting for platform notices</li>
+          </ul>
+        </article>
+        <article class="service-panel glass">
+          <h3>Catalog, inventory, and reporting</h3>
+          <p>Back-office work for clean product data, stock workflows, return visibility, and seller-facing reporting before paid growth or fulfillment scale.</p>
+          <ul>
+            <li>SKU, category, variation, and listing content review</li>
+            <li>Inventory workflow and fulfillment-setting documentation</li>
+            <li>Weekly reports covering status, changes, risks, and next actions</li>
+          </ul>
+        </article>
+        <article class="service-panel glass">
+          <h3>Security-first access model</h3>
+          <p>We request marketplace access only when it is required for the written scope. Sellers keep ownership, approval, and revocation control.</p>
+          <ul>
+            <li>No password sharing or MFA bypass requests</li>
+            <li>Least-privilege permissions by task</li>
+            <li>Access review, retention limits, and deletion request path</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="service-proof glass hi lg">
+        <div class="proof-cell">
+          <b>Amazon seller approved</b>
+          <span>Hands-on Seller Central familiarity through Cirelay's own seller account.</span>
+        </div>
+        <div class="proof-cell">
+          <b>Walmart seller approved</b>
+          <span>Cross-marketplace operating knowledge from Walmart Marketplace approval.</span>
+        </div>
+        <div class="proof-cell">
+          <b>Quote-based pricing</b>
+          <span>Written scope before paid work; no access requested without a defined task.</span>
+        </div>
+        <div class="proof-cell">
+          <b>Privacy practices</b>
+          <span>Published retention, credential, network, and incident-response practices.</span>
+        </div>
+      </div>
+
+      <p class="service-note">Cirelay is currently in pilot-stage marketplace services. We do not claim external client sales or testimonials yet; client quotes will be published only after real engagements are completed and approved by the client.</p>
+
+      <div class="hero-cta" style="margin-top:24px;">
+        <a href="marketplace-account-management.html" class="pill-btn solid"><span>Read Account Management details</span><span class="arr">&rarr;</span></a>
+        <a href="privacy.html" class="pill-btn ghost"><span>Read privacy practices</span><span class="arr">&rarr;</span></a>
       </div>
     </div>
   </section>
@@ -1044,7 +1198,7 @@
   <section class="sec" id="products">
     <div class="container">
       <div class="sec-head">
-        <span class="sec-eyebrow"><span class="dot"></span>01 — Toolkit</span>
+        <span class="sec-eyebrow"><span class="dot"></span>02 — Toolkit</span>
         <h2 class="sec-title">Five tools.<br><span class="grad">One toolkit.</span></h2>
         <p class="sec-sub">Each product ships open-source. Self-host any of them as-is, or commission us to fork and customize.</p>
       </div>
@@ -1063,7 +1217,7 @@
   <section class="sec" id="roadmap">
     <div class="container">
       <div class="sec-head">
-        <span class="sec-eyebrow"><span class="dot"></span>02 — In development</span>
+        <span class="sec-eyebrow"><span class="dot"></span>03 — In development</span>
         <h2 class="sec-title">Twenty more <span class="grad">in the pipeline.</span></h2>
         <p class="sec-sub">Scaffolded and committed, in active development, building toward v0.1. Browse, suggest a direction, or commission early access.</p>
       </div>
@@ -1237,7 +1391,7 @@
   <section class="sec" id="why">
     <div class="container">
       <div class="sec-head">
-        <span class="sec-eyebrow"><span class="dot"></span>03 — Position</span>
+        <span class="sec-eyebrow"><span class="dot"></span>04 — Position</span>
         <h2 class="sec-title">Why <span class="grad">Cirelay.</span><br>And why not the others.</h2>
         <p class="sec-sub">A clear contrast between what most SaaS-for-SMB does, and what we do differently.</p>
       </div>
@@ -1256,11 +1410,11 @@
         <div class="why-col good glass">
           <div class="lbl"><span><b>Cirelay Ventures</b></span><span class="pill">✓ our way</span></div>
           <div class="why-list">
-            <div class="why-item"><span class="sym">✓</span><span>Trade us a problem. Your <strong>first custom build is free.</strong> Yours forever.</span></div>
-            <div class="why-item"><span class="sym">✓</span><span>Self-hosted by default. Data <strong>never leaves your server.</strong></span></div>
-            <div class="why-item"><span class="sym">✓</span><span>Stock product fits? Great. Doesn't? <strong>We fork it for you.</strong></span></div>
-            <div class="why-item"><span class="sym">✓</span><span><strong>$20/mo</strong> unlocks the rest of our 25-tool library — yours and everyone else's commissions.</span></div>
-            <div class="why-item"><span class="sym">✓</span><span>Cancel anytime. The custom tool you commissioned <strong>keeps running</strong> on your server.</span></div>
+            <div class="why-item"><span class="sym">✓</span><span>Marketplace work starts with a <strong>written scope</strong> and seller-approved access plan.</span></div>
+            <div class="why-item"><span class="sym">✓</span><span>Self-hosted automation is available for teams that need <strong>more control over data.</strong></span></div>
+            <div class="why-item"><span class="sym">✓</span><span>Every account-management task is documented with <strong>status, risk, and next action.</strong></span></div>
+            <div class="why-item"><span class="sym">✓</span><span><strong>Quote-based pricing</strong> is provided before paid work or access requests.</span></div>
+            <div class="why-item"><span class="sym">✓</span><span>Cancel an engagement and marketplace access is <strong>removed or reduced</strong> when no longer needed.</span></div>
           </div>
         </div>
       </div>
@@ -1271,7 +1425,7 @@
   <section class="sec" id="process">
     <div class="container">
       <div class="sec-head">
-        <span class="sec-eyebrow"><span class="dot"></span>04 — Engagement</span>
+        <span class="sec-eyebrow"><span class="dot"></span>05 — Engagement</span>
         <h2 class="sec-title">From email to <span class="grad">deployed.</span></h2>
         <p class="sec-sub">Four steps, two to six weeks. No drawn-out discovery phases, no fake urgency.</p>
       </div>
@@ -1309,9 +1463,9 @@
   <section class="sec" id="contact">
     <div class="container">
       <div class="contact-card glass hi lg">
-        <h2>Got a boring problem?<br><span class="grad">Tell us about it.</span></h2>
-        <p>Tell us what's manual today. We'll tell you whether we can make it not-manual — and roughly what it'd cost. No "schedule a call" funnels.</p>
-        <a href="mailto:hello@cirelay.com?subject=Cirelay%20-%20I%20have%20a%20boring%20problem" class="email-big">
+        <h2>Need marketplace help?<br><span class="grad">Tell us the scope.</span></h2>
+        <p>Email the marketplace, account state, SKU count, and what needs to be managed. We will respond with a written access plan and quote path.</p>
+        <a href="mailto:hello@cirelay.com?subject=Marketplace%20account%20management%20scope" class="email-big">
           <span>hello@cirelay.com</span>
           <span class="arr-circ">↗</span>
         </a>
@@ -1338,6 +1492,7 @@
       </div>
       <div class="footer-col">
         <h5>Studio</h5>
+        <a href="marketplace-account-management.html">Account Management</a>
         <a href="#products">Products</a>
         <a href="#why">Why</a>
         <a href="#process">Process</a>
@@ -1346,6 +1501,7 @@
         <h5>Talk to us</h5>
         <a href="mailto:hello@cirelay.com">hello@cirelay.com</a>
         <a href="https://github.com/Cirelay-Ventures">github.com/Cirelay-Ventures</a>
+        <a href="privacy.html">Privacy and data handling</a>
       </div>
       <div class="footer-col">
         <h5>Edition</h5>

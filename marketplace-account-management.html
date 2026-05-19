@@ -1,0 +1,456 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Marketplace Account Management | Cirelay Ventures</title>
+<meta name="description" content="Cirelay Ventures provides Amazon Seller Central and Walmart Marketplace account management, listing operations, account health support, reporting, and marketplace automation.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #09111f;
+    --muted: #536173;
+    --soft: #eef3f7;
+    --line: rgba(9, 17, 31, .12);
+    --panel: rgba(255,255,255,.76);
+    --accent: #0f766e;
+    --accent-2: #2563eb;
+    --warn: #b45309;
+    --maxw: 1180px;
+    --gutter: 28px;
+    --sans: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', system-ui, sans-serif;
+    --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    min-height: 100vh;
+    color: var(--ink);
+    background:
+      linear-gradient(135deg, rgba(15,118,110,.16), rgba(37,99,235,.08) 44%, rgba(180,83,9,.12)),
+      #f8fafc;
+    font-family: var(--sans);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: rgba(248,250,252,.82);
+    backdrop-filter: blur(18px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-inner { min-height: 74px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+  .brand { display: inline-flex; align-items: center; gap: 12px; text-decoration: none; font-weight: 800; letter-spacing: -.02em; }
+  .glyph { width: 34px; height: 34px; border-radius: 9px; display: grid; place-items: center; color: #fff; background: linear-gradient(135deg, var(--accent), var(--accent-2)); }
+  .links { display: flex; align-items: center; gap: 18px; font-size: 14px; color: var(--muted); font-weight: 600; }
+  .links a { text-decoration: none; }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 0 18px;
+    border-radius: 8px;
+    border: 1px solid var(--line);
+    background: #fff;
+    text-decoration: none;
+    font-weight: 700;
+    color: var(--ink);
+  }
+  .btn.primary { background: var(--ink); color: #fff; border-color: var(--ink); }
+  .hero { padding: 74px 0 56px; }
+  .hero-grid { display: grid; grid-template-columns: minmax(0, 1.12fr) minmax(320px, .88fr); gap: 56px; align-items: center; }
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 11px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: rgba(255,255,255,.7);
+    color: var(--muted);
+    font: 600 11px/1 var(--mono);
+    text-transform: uppercase;
+    letter-spacing: .08em;
+  }
+  .dot { width: 7px; height: 7px; border-radius: 50%; background: #16a34a; box-shadow: 0 0 0 5px rgba(22,163,74,.12); }
+  h1 { margin-top: 22px; max-width: 12ch; font-size: clamp(48px, 7vw, 88px); line-height: .94; letter-spacing: -.055em; }
+  .lead { margin-top: 24px; max-width: 58ch; color: var(--muted); font-size: 18px; }
+  .hero-actions { margin-top: 30px; display: flex; gap: 12px; flex-wrap: wrap; }
+  .ops-board {
+    background: rgba(255,255,255,.72);
+    border: 1px solid rgba(255,255,255,.82);
+    border-radius: 10px;
+    box-shadow: 0 24px 80px rgba(15, 23, 42, .16);
+    overflow: hidden;
+  }
+  .board-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 18px 20px; border-bottom: 1px solid var(--line); }
+  .board-title { font-weight: 800; letter-spacing: -.02em; }
+  .board-tag { font: 600 11px/1 var(--mono); color: var(--accent); text-transform: uppercase; letter-spacing: .08em; }
+  .metric-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border-bottom: 1px solid var(--line); }
+  .metric { padding: 20px; border-right: 1px solid var(--line); }
+  .metric:nth-child(2n) { border-right: 0; }
+  .metric strong { display: block; font-size: 28px; letter-spacing: -.04em; line-height: 1; }
+  .metric span { display: block; margin-top: 7px; color: var(--muted); font-size: 13px; }
+  .task-list { padding: 10px 20px 20px; }
+  .task { display: grid; grid-template-columns: 20px 1fr auto; gap: 12px; align-items: center; padding: 12px 0; border-bottom: 1px solid rgba(9,17,31,.08); font-size: 14px; }
+  .task:last-child { border-bottom: 0; }
+  .check { width: 18px; height: 18px; border-radius: 50%; background: rgba(15,118,110,.14); color: var(--accent); display: grid; place-items: center; font-size: 12px; font-weight: 800; }
+  .state { color: var(--muted); font: 600 11px/1 var(--mono); text-transform: uppercase; letter-spacing: .06em; }
+  section { padding: 74px 0; }
+  .section-head { max-width: 720px; margin-bottom: 32px; }
+  .kicker { color: var(--accent); font: 700 12px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; }
+  h2 { margin-top: 10px; font-size: clamp(34px, 4vw, 56px); line-height: 1; letter-spacing: -.04em; }
+  .section-head p { margin-top: 16px; color: var(--muted); font-size: 17px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+  .grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+  .panel {
+    background: var(--panel);
+    border: 1px solid rgba(255,255,255,.78);
+    border-radius: 10px;
+    padding: 24px;
+    box-shadow: 0 14px 44px rgba(15,23,42,.08);
+  }
+  .panel h3 { font-size: 20px; line-height: 1.2; letter-spacing: -.02em; }
+  .panel p { margin-top: 10px; color: var(--muted); font-size: 15px; }
+  .panel ul { margin-top: 16px; display: grid; gap: 10px; list-style: none; }
+  .panel li { color: var(--muted); font-size: 15px; padding-left: 18px; position: relative; }
+  .panel li::before { content: ""; position: absolute; left: 0; top: .7em; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+  .band {
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    background: rgba(255,255,255,.38);
+  }
+  .proof {
+    display: grid;
+    grid-template-columns: .9fr 1.1fr;
+    gap: 28px;
+    align-items: start;
+  }
+  .fact-list { display: grid; gap: 12px; }
+  .fact {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 18px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .fact dt { color: var(--muted); font: 700 11px/1.4 var(--mono); letter-spacing: .1em; text-transform: uppercase; }
+  .fact dd { font-weight: 600; }
+  .timeline { display: grid; gap: 14px; counter-reset: step; }
+  .step { display: grid; grid-template-columns: 44px 1fr; gap: 16px; align-items: start; }
+  .step::before {
+    counter-increment: step;
+    content: counter(step, decimal-leading-zero);
+    width: 44px;
+    height: 44px;
+    border-radius: 8px;
+    display: grid;
+    place-items: center;
+    background: var(--ink);
+    color: #fff;
+    font: 700 13px/1 var(--mono);
+  }
+  .step h3 { font-size: 19px; }
+  .step p { margin-top: 6px; color: var(--muted); }
+  .note {
+    margin-top: 20px;
+    padding: 18px 20px;
+    border-left: 4px solid var(--warn);
+    background: rgba(255,255,255,.58);
+    color: var(--muted);
+    border-radius: 0 8px 8px 0;
+  }
+  .cta {
+    padding: 54px;
+    border-radius: 10px;
+    background: var(--ink);
+    color: #fff;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 28px;
+    align-items: center;
+  }
+  .cta p { margin-top: 10px; color: rgba(255,255,255,.72); max-width: 60ch; }
+  .cta .btn { background: #fff; color: var(--ink); border-color: #fff; }
+  footer { padding: 36px 0 48px; color: var(--muted); font-size: 14px; }
+  .footer-inner { display: flex; justify-content: space-between; gap: 20px; border-top: 1px solid var(--line); padding-top: 24px; }
+  .footer-inner a { color: var(--ink); text-decoration: none; font-weight: 600; }
+  @media (max-width: 900px) {
+    .hero-grid, .proof, .cta { grid-template-columns: 1fr; }
+    .grid-3, .grid-2 { grid-template-columns: 1fr; }
+    .links { display: none; }
+  }
+  @media (max-width: 560px) {
+    :root { --gutter: 20px; }
+    .hero { padding-top: 48px; }
+    h1 { font-size: 48px; }
+    .metric-grid { grid-template-columns: 1fr; }
+    .metric { border-right: 0; border-bottom: 1px solid var(--line); }
+    .fact { grid-template-columns: 1fr; gap: 6px; }
+    .cta { padding: 30px; }
+    .footer-inner { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a href="index.html" class="brand"><span class="glyph">C</span><span>Cirelay Ventures</span></a>
+    <nav class="links" aria-label="Primary">
+      <a href="#offerings">Offerings</a>
+      <a href="#proof">Proof</a>
+      <a href="#security">Security</a>
+      <a href="#pricing">Pricing</a>
+      <a href="privacy.html">Privacy</a>
+    </nav>
+    <a class="btn primary" href="mailto:hello@cirelay.com?subject=Marketplace%20account%20management%20scope">Request scope</a>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <span class="eyebrow"><span class="dot"></span>Account Management service category</span>
+        <h1>Amazon and Walmart seller operations, managed carefully.</h1>
+        <p class="lead">Cirelay Ventures helps marketplace sellers set up, monitor, and improve seller account operations across Amazon Seller Central and Walmart Marketplace. We focus on account health, listing quality, inventory workflows, reporting cadence, and practical automation that keeps the seller in control.</p>
+        <div class="hero-actions">
+          <a class="btn primary" href="#offerings">View service offerings</a>
+          <a class="btn" href="privacy.html">Data handling practices</a>
+        </div>
+      </div>
+      <aside class="ops-board" aria-label="Marketplace operations snapshot">
+        <div class="board-top">
+          <div>
+            <div class="board-title">Seller operations desk</div>
+            <div class="board-tag">Seller-controlled access</div>
+          </div>
+          <span class="eyebrow"><span class="dot"></span>Active</span>
+        </div>
+        <div class="metric-grid">
+          <div class="metric"><strong>Amazon</strong><span>Seller account approved</span></div>
+          <div class="metric"><strong>Walmart</strong><span>Seller account approved</span></div>
+          <div class="metric"><strong>Weekly</strong><span>Account health review cadence</span></div>
+          <div class="metric"><strong>Least</strong><span>Privilege access planning</span></div>
+        </div>
+        <div class="task-list">
+          <div class="task"><span class="check">&check;</span><span>Account-health monitoring and issue triage</span><span class="state">Managed</span></div>
+          <div class="task"><span class="check">&check;</span><span>Listing, catalog, and inventory workflow cleanup</span><span class="state">Managed</span></div>
+          <div class="task"><span class="check">&check;</span><span>Reporting, action logs, and seller handoff notes</span><span class="state">Managed</span></div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section id="offerings" class="band">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">Detailed Service Offerings</span>
+        <h2>Account management built for marketplace basics first.</h2>
+        <p>We do not ask for Seller Central access by default. When access is required, the seller grants only the permissions needed for the scoped task and can revoke access at any time.</p>
+      </div>
+      <div class="grid-3">
+        <article class="panel">
+          <h3>Account setup and health</h3>
+          <p>Support for business profile readiness, verification tasks, user permissions, policy notices, and account-health routines.</p>
+          <ul>
+            <li>Seller Central and Walmart Marketplace setup checklists</li>
+            <li>Account health dashboard review and action log</li>
+            <li>Policy notice triage and seller-owned response drafting</li>
+          </ul>
+        </article>
+        <article class="panel">
+          <h3>Catalog and listing operations</h3>
+          <p>Listing quality work that helps sellers maintain clean catalog data before trying to scale paid traffic or fulfillment volume.</p>
+          <ul>
+            <li>Product title, description, image, and attribute readiness</li>
+            <li>Variation, category, and SKU hygiene review</li>
+            <li>Listing issue tracking and update documentation</li>
+          </ul>
+        </article>
+        <article class="panel">
+          <h3>Inventory and order workflows</h3>
+          <p>Operating routines for fulfillment settings, stock status, return workflow visibility, and seller handoff documentation.</p>
+          <ul>
+            <li>Inventory file and stock-status process review</li>
+            <li>FBA, MFN, and Walmart fulfillment workflow coordination</li>
+            <li>Return and refund workflow tracking where authorized</li>
+          </ul>
+        </article>
+        <article class="panel">
+          <h3>Reporting and cadence</h3>
+          <p>A clear weekly rhythm so sellers know what changed, what needs their approval, and what is waiting on platform review.</p>
+          <ul>
+            <li>Weekly status summaries and open-risk register</li>
+            <li>Listing, inventory, and account-health snapshots</li>
+            <li>Documented change history for seller review</li>
+          </ul>
+        </article>
+        <article class="panel">
+          <h3>Automation support</h3>
+          <p>Cirelay's self-hosted toolkit can support practical back-office workflows without moving seller data into a third-party black box.</p>
+          <ul>
+            <li>Inventory and listing data cleanup workflows</li>
+            <li>Price and catalog monitoring where permitted</li>
+            <li>Self-hosted reporting and internal dashboards</li>
+          </ul>
+        </article>
+        <article class="panel">
+          <h3>Access governance</h3>
+          <p>We work from a written scope, use seller-approved roles, and remove access when the engagement ends or when it is no longer needed.</p>
+          <ul>
+            <li>No password sharing or MFA bypass requests</li>
+            <li>Least-privilege permissions per task</li>
+            <li>Quarterly access review for ongoing retainers</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="proof">
+    <div class="wrap proof">
+      <div class="section-head">
+        <span class="kicker">Credentials And Proof</span>
+        <h2>Early-stage, credential-backed, and transparent.</h2>
+        <p>Cirelay is in pilot-stage marketplace services. We will publish client testimonials only after real client work is completed and the client gives written permission.</p>
+      </div>
+      <dl class="fact-list">
+        <div class="fact">
+          <dt>Amazon</dt>
+          <dd>Cirelay Ventures has been approved to operate as an Amazon seller. This credential supports hands-on Seller Central familiarity.</dd>
+        </div>
+        <div class="fact">
+          <dt>Walmart</dt>
+          <dd>Cirelay Ventures has been approved to operate as a Walmart seller. This supports cross-marketplace operations and setup knowledge.</dd>
+        </div>
+        <div class="fact">
+          <dt>Operating Story</dt>
+          <dd>Founder-operated marketplace launch preparation: account approval, compliance profile setup, listing-readiness workflow, inventory process planning, and weekly review cadence. No external client sales are claimed here.</dd>
+        </div>
+        <div class="fact">
+          <dt>Toolkit</dt>
+          <dd>Self-hosted inventory, listing, pricing, reporting, and automation projects maintained by Cirelay Ventures support the operational side of marketplace account management.</dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+
+  <section class="band" id="security">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">Security And Data Practices</span>
+        <h2>Seller data is handled by scope, permission, and retention limit.</h2>
+        <p>For engagements involving Seller Central or marketplace data, Cirelay applies access controls and retention practices designed around Amazon SP-API and marketplace data-protection expectations.</p>
+      </div>
+      <div class="grid-2">
+        <article class="panel">
+          <h3>Credential management</h3>
+          <ul>
+            <li>Seller grants role-based access from the marketplace account.</li>
+            <li>Cirelay does not ask sellers to share passwords or MFA codes.</li>
+            <li>Access is reviewed quarterly for ongoing retainers and removed after the engagement ends.</li>
+            <li>Any secrets required for approved integrations are stored encrypted and limited to authorized personnel.</li>
+          </ul>
+        </article>
+        <article class="panel">
+          <h3>PII and retention</h3>
+          <ul>
+            <li>Buyer/order PII is used only for authorized account-management tasks.</li>
+            <li>Buyer/order PII is deleted or anonymized no later than 30 days after order delivery when order data is used, unless a longer period is legally required.</li>
+            <li>Non-PII operational records are retained only as long as needed for reporting, support, legal, or security purposes.</li>
+            <li>Deletion requests can be sent to hello@cirelay.com.</li>
+          </ul>
+        </article>
+        <article class="panel">
+          <h3>Network and device controls</h3>
+          <ul>
+            <li>HTTPS/TLS is used for web access and data transfer.</li>
+            <li>Administrative access requires MFA where supported.</li>
+            <li>Workstations used for seller work are protected with OS updates, device lock, and anti-malware controls.</li>
+            <li>Access to production systems is restricted to authorized operators.</li>
+          </ul>
+        </article>
+        <article class="panel">
+          <h3>Incident response</h3>
+          <ul>
+            <li>Suspected security incidents are logged, triaged, contained, and investigated.</li>
+            <li>Affected sellers and marketplaces are notified when required by contract, law, or platform policy.</li>
+            <li>Corrective actions are documented and reviewed before service resumes.</li>
+            <li>Security contact: hello@cirelay.com.</li>
+          </ul>
+        </article>
+      </div>
+      <p class="note">The full policy, including collection, use, sharing, retention, incident response, and deletion practices, is available on the <a href="privacy.html">Privacy and Data Handling Practices</a> page.</p>
+    </div>
+  </section>
+
+  <section id="process">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">Engagement Process</span>
+        <h2>Four steps before any account access is requested.</h2>
+        <p>Every engagement starts with a written scope so the seller knows exactly why access is needed, what will be changed, and how results will be reported.</p>
+      </div>
+      <div class="timeline">
+        <div class="step"><div><h3>Scope and access plan</h3><p>We define the marketplace, account area, requested permissions, expected deliverables, and data that may be accessed.</p></div></div>
+        <div class="step"><div><h3>Baseline account review</h3><p>We review account health, catalog/listing readiness, inventory workflow, and open platform notices based on seller-approved access.</p></div></div>
+        <div class="step"><div><h3>Execution and documentation</h3><p>We complete approved tasks, keep an action log, and request seller approval before sensitive account changes.</p></div></div>
+        <div class="step"><div><h3>Weekly report and handoff</h3><p>The seller receives status, completed work, risks, and recommended next actions. Access is reduced or removed when no longer needed.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="pricing">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">Pricing</span>
+        <h2>Quote-based, with a written scope before paid work.</h2>
+        <p>Marketplace account management depends on channel count, SKU count, account state, fulfillment model, and how much seller access is required. Cirelay provides a written quote before beginning paid work.</p>
+      </div>
+      <div class="grid-3">
+        <article class="panel">
+          <h3>Initial intake</h3>
+          <p>Free email intake and optional 30-minute discovery call to understand channel, account state, and goals.</p>
+        </article>
+        <article class="panel">
+          <h3>Setup or cleanup project</h3>
+          <p>Fixed-fee quote for account readiness, listing cleanup, reporting setup, inventory workflow review, or seller handoff documentation.</p>
+        </article>
+        <article class="panel">
+          <h3>Monthly management</h3>
+          <p>Retainer quote for weekly account-health review, listing/inventory operations, reporting cadence, and approved account-management tasks.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="wrap">
+      <div class="cta">
+        <div>
+          <span class="kicker">Contact</span>
+          <h2>Request a marketplace account-management scope.</h2>
+          <p>Email Cirelay with your marketplace, account status, approximate SKU count, and what you need managed. We will respond with the access plan and next steps.</p>
+        </div>
+        <a class="btn" href="mailto:hello@cirelay.com?subject=Marketplace%20account%20management%20scope">hello@cirelay.com</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap footer-inner">
+    <span>Copyright 2024-2026 Cirelay Ventures. Independent service provider; not endorsed by Amazon.com, Inc. or Walmart Inc.</span>
+    <span><a href="index.html">Home</a> / <a href="privacy.html">Privacy</a></span>
+  </div>
+</footer>
+</body>
+</html>

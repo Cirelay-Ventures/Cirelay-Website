@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Privacy and Data Handling Practices | Cirelay Ventures</title>
+<meta name="description" content="Cirelay Ventures privacy, security, data retention, deletion, credential management, and incident response practices for marketplace account-management services.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #09111f;
+    --muted: #536173;
+    --soft: #edf4f6;
+    --line: rgba(9,17,31,.12);
+    --accent: #0f766e;
+    --maxw: 980px;
+    --gutter: 28px;
+    --sans: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', system-ui, sans-serif;
+    --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    color: var(--ink);
+    background:
+      linear-gradient(135deg, rgba(15,118,110,.13), rgba(37,99,235,.07)),
+      #f8fafc;
+    font-family: var(--sans);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--accent); font-weight: 700; }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: rgba(248,250,252,.84);
+    backdrop-filter: blur(18px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav { min-height: 74px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+  .brand { display: inline-flex; align-items: center; gap: 12px; color: var(--ink); text-decoration: none; font-weight: 800; letter-spacing: -.02em; }
+  .glyph { width: 34px; height: 34px; border-radius: 9px; display: grid; place-items: center; color: #fff; background: linear-gradient(135deg, var(--accent), #2563eb); }
+  .nav-links { display: flex; gap: 18px; align-items: center; font-size: 14px; }
+  .nav-links a { color: var(--muted); text-decoration: none; }
+  .hero { padding: 76px 0 42px; border-bottom: 1px solid var(--line); }
+  .eyebrow { color: var(--accent); font: 700 12px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; }
+  h1 { margin-top: 14px; font-size: clamp(42px, 7vw, 76px); line-height: .98; letter-spacing: -.055em; max-width: 12ch; }
+  .lead { margin-top: 22px; max-width: 70ch; color: var(--muted); font-size: 18px; }
+  main { padding-bottom: 44px; }
+  section { padding: 42px 0; border-bottom: 1px solid var(--line); }
+  h2 { font-size: clamp(28px, 4vw, 42px); line-height: 1.08; letter-spacing: -.035em; margin-bottom: 14px; }
+  h3 { font-size: 20px; margin: 26px 0 8px; letter-spacing: -.02em; }
+  p { color: var(--muted); margin-top: 12px; }
+  ul { margin-top: 14px; display: grid; gap: 9px; padding-left: 20px; color: var(--muted); }
+  li strong, p strong { color: var(--ink); }
+  .toc {
+    margin-top: 28px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+  }
+  .toc a {
+    display: block;
+    padding: 12px 14px;
+    border-radius: 8px;
+    border: 1px solid var(--line);
+    background: rgba(255,255,255,.62);
+    color: var(--ink);
+    text-decoration: none;
+    font-size: 14px;
+  }
+  .policy-box {
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,.82);
+    background: rgba(255,255,255,.68);
+    box-shadow: 0 12px 36px rgba(15,23,42,.07);
+    margin-top: 18px;
+  }
+  .retention {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 18px;
+    background: rgba(255,255,255,.62);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .retention th, .retention td {
+    text-align: left;
+    vertical-align: top;
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--line);
+  }
+  .retention th {
+    color: var(--ink);
+    font: 700 12px/1.4 var(--mono);
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    background: rgba(9,17,31,.04);
+  }
+  .retention td { color: var(--muted); font-size: 15px; }
+  .retention tr:last-child td { border-bottom: 0; }
+  .contact {
+    margin-top: 18px;
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 18px;
+    border-radius: 8px;
+    background: var(--ink);
+    color: #fff;
+    text-decoration: none;
+  }
+  footer { padding: 28px 0 48px; color: var(--muted); font-size: 14px; }
+  @media (max-width: 760px) {
+    :root { --gutter: 20px; }
+    .nav-links { display: none; }
+    .toc { grid-template-columns: 1fr; }
+    .retention { display: block; overflow-x: auto; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap nav">
+    <a href="index.html" class="brand"><span class="glyph">C</span><span>Cirelay Ventures</span></a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="marketplace-account-management.html">Account Management</a>
+      <a href="#retention">Retention</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="hero">
+    <div class="wrap">
+      <span class="eyebrow">Updated May 19, 2026</span>
+      <h1>Privacy and data handling practices.</h1>
+      <p class="lead">This policy explains how Cirelay Ventures collects, uses, protects, shares, retains, and deletes data for its website, software services, and marketplace account-management engagements, including engagements that may involve Amazon Seller Central or Walmart Marketplace data.</p>
+      <div class="toc" aria-label="Policy sections">
+        <a href="#collection">Data We Collect</a>
+        <a href="#use">How We Use Data</a>
+        <a href="#access">Account Access</a>
+        <a href="#security">Security Controls</a>
+        <a href="#retention">Retention</a>
+        <a href="#incident">Incident Response</a>
+      </div>
+    </div>
+  </div>
+
+  <section id="collection">
+    <div class="wrap">
+      <h2>Data We Collect</h2>
+      <p>Cirelay Ventures collects only the data needed to respond to inquiries, provide scoped services, operate software, maintain security, and meet legal or platform obligations.</p>
+      <div class="policy-box">
+        <ul>
+          <li><strong>Contact and business information:</strong> name, email address, company name, marketplace channel, account status, and project requirements submitted by a prospective or active client.</li>
+          <li><strong>Marketplace operational data:</strong> account-health notices, listing data, catalog attributes, SKU and inventory information, fulfillment settings, order workflow details, return/refund workflow details, and reports when the seller authorizes access.</li>
+          <li><strong>Buyer or order PII:</strong> buyer name, shipping/contact details, order identifiers, and similar marketplace order information only when required for an authorized service task.</li>
+          <li><strong>Technical and security data:</strong> access logs, device/session metadata, support records, audit history, and security event information.</li>
+          <li><strong>Website data:</strong> standard server logs and email inquiry metadata. The public marketing site does not require account registration.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="use">
+    <div class="wrap">
+      <h2>How We Use Data</h2>
+      <p>Cirelay uses data only for legitimate service, support, operational, security, legal, and compliance purposes.</p>
+      <ul>
+        <li>To respond to service inquiries and prepare written scopes or quotes.</li>
+        <li>To provide marketplace account-management services authorized by the seller.</li>
+        <li>To monitor account-health workflows, listing operations, inventory workflows, and reporting cadence.</li>
+        <li>To troubleshoot software, maintain security, prevent abuse, and investigate incidents.</li>
+        <li>To comply with applicable laws, contracts, and marketplace platform requirements.</li>
+      </ul>
+      <p>Cirelay does not sell seller, buyer, order, listing, inventory, or contact data. Cirelay does not use seller or buyer data for advertising, data brokerage, or unrelated analytics.</p>
+    </div>
+  </section>
+
+  <section id="access">
+    <div class="wrap">
+      <h2>Marketplace Account Access</h2>
+      <p>Cirelay requests access to Seller Central or other marketplace accounts only when it is required for a written service scope. The seller remains the account owner and controls the access granted.</p>
+      <ul>
+        <li>Access is granted through marketplace-supported user permissions or approved authorization flows where available.</li>
+        <li>Cirelay does not ask sellers to share marketplace passwords or MFA codes.</li>
+        <li>Access is limited to the least privilege required for the task.</li>
+        <li>Access is reviewed quarterly for ongoing engagements and removed when the engagement ends or the access is no longer needed.</li>
+        <li>Any credentials, tokens, or secrets needed for approved integrations are stored in encrypted systems and restricted to authorized personnel.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="security">
+    <div class="wrap">
+      <h2>Security Controls</h2>
+      <p>For engagements involving marketplace data, Cirelay uses administrative, technical, and procedural controls designed to reduce unauthorized access, disclosure, loss, and misuse.</p>
+      <h3>Network and system protection</h3>
+      <ul>
+        <li>HTTPS/TLS is used for web access and data transfer.</li>
+        <li>Administrative access requires MFA where supported.</li>
+        <li>Systems are configured with least-privilege access and role-based permissions where available.</li>
+        <li>Workstations used for seller data are kept updated and protected with device lock and anti-malware controls.</li>
+        <li>Production access is restricted to authorized operators and reviewed for ongoing engagements.</li>
+      </ul>
+      <h3>Credential management</h3>
+      <ul>
+        <li>Passwords must be unique and strong, and are not shared over chat or email.</li>
+        <li>Secrets and tokens are encrypted at rest where storage is required.</li>
+        <li>Access keys and secrets are rotated when personnel changes, suspected exposure, or platform requirements call for rotation.</li>
+        <li>Credentials are removed when they are no longer required for the approved task.</li>
+      </ul>
+      <h3>Backups and recovery</h3>
+      <ul>
+        <li>Service data needed for continuity is backed up according to the written engagement scope.</li>
+        <li>Backups containing sensitive data are protected from public access and retained only for the required period.</li>
+        <li>Recovery procedures are reviewed during ongoing service engagements.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="retention">
+    <div class="wrap">
+      <h2>Retention And Deletion</h2>
+      <p>Cirelay keeps data only as long as needed for the service, security, legal, or marketplace purpose. When data is no longer needed, it is deleted, anonymized, or returned to the seller where appropriate.</p>
+      <table class="retention">
+        <thead>
+          <tr>
+            <th>Data Type</th>
+            <th>Typical Retention</th>
+            <th>Deletion Trigger</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Buyer/order PII</td>
+            <td>Only as long as needed for the authorized support, fulfillment, return, refund, or account-management task. When order data is used, deletion or anonymization occurs no later than 30 days after order delivery unless a longer period is legally required.</td>
+            <td>Order delivery plus retention window, task completion, seller request, engagement end, or legal/platform requirement.</td>
+          </tr>
+          <tr>
+            <td>Marketplace listing, SKU, inventory, and account-health data</td>
+            <td>For the active engagement and up to 18 months after engagement end when needed for reporting, audit history, or support.</td>
+            <td>Seller request, engagement end plus retention expiry, or when no longer needed.</td>
+          </tr>
+          <tr>
+            <td>Security logs and audit history</td>
+            <td>Up to 12 months unless needed for incident investigation, legal obligations, or platform compliance.</td>
+            <td>Retention expiry or completion of investigation.</td>
+          </tr>
+          <tr>
+            <td>Contact, quote, and billing records</td>
+            <td>For the duration of the business relationship and as required for accounting, tax, contract, or legal obligations.</td>
+            <td>Deletion request where legally permitted or retention expiry.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>To request deletion, correction, export, or access removal, email <a href="mailto:hello@cirelay.com?subject=Data%20request">hello@cirelay.com</a>. Cirelay will verify the request before making account or data changes.</p>
+    </div>
+  </section>
+
+  <section id="sharing">
+    <div class="wrap">
+      <h2>Sharing And Service Providers</h2>
+      <p>Cirelay shares data only when needed to provide the service, comply with law, protect security, or when the seller authorizes the sharing.</p>
+      <ul>
+        <li>With marketplace platforms when required to perform authorized account-management tasks.</li>
+        <li>With infrastructure, email, domain, accounting, or support providers that help operate the service.</li>
+        <li>With legal, regulatory, or security parties when required by law or necessary to protect rights, users, or systems.</li>
+      </ul>
+      <p>Cirelay does not sell marketplace data, buyer PII, or client contact lists.</p>
+    </div>
+  </section>
+
+  <section id="incident">
+    <div class="wrap">
+      <h2>Incident Response</h2>
+      <p>If Cirelay suspects unauthorized access, disclosure, loss, or misuse of sensitive data, Cirelay follows an incident-response process:</p>
+      <ul>
+        <li>Log and triage the suspected incident.</li>
+        <li>Contain affected systems or access paths.</li>
+        <li>Investigate scope, affected data, root cause, and corrective action.</li>
+        <li>Notify affected sellers, marketplaces, service providers, or regulators when required by contract, law, or platform policy.</li>
+        <li>Document remediation and review controls before normal service resumes.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="wrap">
+      <h2>Contact</h2>
+      <p>Cirelay Ventures is an independent software and marketplace operations service provider. Questions about privacy, security, account access, deletion, correction, or incident response can be sent to:</p>
+      <a class="contact" href="mailto:hello@cirelay.com?subject=Privacy%20or%20data%20handling%20question">hello@cirelay.com</a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    Copyright 2024-2026 Cirelay Ventures. Independent service provider; not endorsed by Amazon.com, Inc. or Walmart Inc.
+  </div>
+</footer>
+</body>
+</html>
