@@ -6,6 +6,15 @@ Marketing site for Cirelay Ventures. Static HTML/CSS, no build step. Served via 
 
 Just open `index.html` in any browser. No build or dependencies.
 
+## Main Pages
+
+- `index.html` - Cirelay Ventures overview.
+- `marketplace-account-management.html` - broader Amazon/Walmart account-management service page.
+- `marketplace-ops-audit.html` - fixed-scope pilot offer for the first paid service.
+- `marketplace-audit-sample.html` - public sample audit using Cirelay-owned storefront assets.
+- `audit-sample-shop-cirelay.png` - screenshot asset used by the sample audit page.
+- `privacy.html` - privacy and data handling practices.
+
 ## Deployment
 
 GitHub Pages serves from the `main` branch root. Pushes auto-deploy. The `CNAME` file maps the Pages site to `cirelay.com` — make sure DNS at the registrar points there:

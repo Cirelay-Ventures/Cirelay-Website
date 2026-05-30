@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Marketplace Ops Audit | Cirelay Ventures</title>
+<meta name="description" content="A fixed-scope Amazon and Walmart marketplace operations audit covering account health, listing readiness, inventory workflow, fulfillment risk, and automation opportunities.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #09111f;
+    --muted: #536173;
+    --soft: #eef3f7;
+    --line: rgba(9, 17, 31, .12);
+    --panel: rgba(255,255,255,.78);
+    --accent: #0f766e;
+    --accent-2: #2563eb;
+    --warn: #b45309;
+    --maxw: 1180px;
+    --gutter: 28px;
+    --sans: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', system-ui, sans-serif;
+    --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    min-height: 100vh;
+    color: var(--ink);
+    background:
+      linear-gradient(135deg, rgba(15,118,110,.14), rgba(37,99,235,.08) 48%, rgba(180,83,9,.1)),
+      #f8fafc;
+    font-family: var(--sans);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: rgba(248,250,252,.84);
+    backdrop-filter: blur(18px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-inner { min-height: 74px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+  .brand { display: inline-flex; align-items: center; gap: 12px; text-decoration: none; font-weight: 800; letter-spacing: -.02em; }
+  .glyph { width: 34px; height: 34px; border-radius: 9px; display: grid; place-items: center; color: #fff; background: linear-gradient(135deg, var(--accent), var(--accent-2)); }
+  .links { display: flex; align-items: center; gap: 18px; font-size: 14px; color: var(--muted); font-weight: 600; }
+  .links a { text-decoration: none; }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 0 18px;
+    border-radius: 8px;
+    border: 1px solid var(--line);
+    background: #fff;
+    text-decoration: none;
+    font-weight: 700;
+    color: var(--ink);
+  }
+  .btn.primary { background: var(--ink); color: #fff; border-color: var(--ink); }
+  .hero { padding: 76px 0 58px; }
+  .hero-grid { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(320px, .95fr); gap: 54px; align-items: center; }
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 11px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: rgba(255,255,255,.72);
+    color: var(--muted);
+    font: 600 11px/1 var(--mono);
+    text-transform: uppercase;
+    letter-spacing: .08em;
+  }
+  .dot { width: 7px; height: 7px; border-radius: 50%; background: #16a34a; box-shadow: 0 0 0 5px rgba(22,163,74,.12); }
+  h1 { margin-top: 22px; max-width: 13ch; font-size: clamp(46px, 7vw, 84px); line-height: .94; letter-spacing: -.055em; }
+  .lead { margin-top: 24px; max-width: 62ch; color: var(--muted); font-size: 18px; }
+  .hero-actions { margin-top: 30px; display: flex; gap: 12px; flex-wrap: wrap; }
+  .audit-board {
+    background: rgba(255,255,255,.74);
+    border: 1px solid rgba(255,255,255,.84);
+    border-radius: 10px;
+    box-shadow: 0 24px 80px rgba(15, 23, 42, .16);
+    overflow: hidden;
+  }
+  .board-top { display: flex; justify-content: space-between; gap: 18px; padding: 18px 20px; border-bottom: 1px solid var(--line); }
+  .board-title { font-weight: 800; letter-spacing: -.02em; }
+  .board-tag { margin-top: 4px; font: 600 11px/1 var(--mono); color: var(--accent); text-transform: uppercase; letter-spacing: .08em; }
+  .row { display: grid; grid-template-columns: 28px 1fr auto; gap: 12px; align-items: center; padding: 14px 20px; border-bottom: 1px solid rgba(9,17,31,.08); }
+  .row:last-child { border-bottom: 0; }
+  .num { width: 28px; height: 28px; display: grid; place-items: center; border-radius: 8px; background: rgba(15,118,110,.12); color: var(--accent); font: 700 12px/1 var(--mono); }
+  .row b { display: block; font-size: 14px; }
+  .row span { display: block; color: var(--muted); font-size: 13px; }
+  .state { color: var(--muted); font: 600 11px/1 var(--mono); text-transform: uppercase; letter-spacing: .06em; }
+  section { padding: 74px 0; }
+  .band { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); background: rgba(255,255,255,.38); }
+  .section-head { max-width: 760px; margin-bottom: 32px; }
+  .kicker { color: var(--accent); font: 700 12px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; }
+  h2 { margin-top: 10px; font-size: clamp(34px, 4vw, 56px); line-height: 1; letter-spacing: -.04em; }
+  .section-head p { margin-top: 16px; color: var(--muted); font-size: 17px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+  .grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+  .panel {
+    background: var(--panel);
+    border: 1px solid rgba(255,255,255,.78);
+    border-radius: 10px;
+    padding: 24px;
+    box-shadow: 0 14px 44px rgba(15,23,42,.08);
+  }
+  .panel h3 { font-size: 20px; line-height: 1.2; letter-spacing: -.02em; }
+  .panel p { margin-top: 10px; color: var(--muted); font-size: 15px; }
+  .panel ul { margin-top: 16px; display: grid; gap: 10px; list-style: none; }
+  .panel li { color: var(--muted); font-size: 15px; padding-left: 18px; position: relative; }
+  .panel li::before { content: ""; position: absolute; left: 0; top: .7em; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+  .timeline { display: grid; gap: 14px; counter-reset: step; }
+  .step { display: grid; grid-template-columns: 44px 1fr; gap: 16px; align-items: start; }
+  .step::before {
+    counter-increment: step;
+    content: counter(step, decimal-leading-zero);
+    width: 44px;
+    height: 44px;
+    border-radius: 8px;
+    display: grid;
+    place-items: center;
+    background: var(--ink);
+    color: #fff;
+    font: 700 13px/1 var(--mono);
+  }
+  .step h3 { font-size: 19px; }
+  .step p { margin-top: 6px; color: var(--muted); }
+  .note {
+    margin-top: 20px;
+    padding: 18px 20px;
+    border-left: 4px solid var(--warn);
+    background: rgba(255,255,255,.58);
+    color: var(--muted);
+    border-radius: 0 8px 8px 0;
+  }
+  .cta {
+    padding: 54px;
+    border-radius: 10px;
+    background: var(--ink);
+    color: #fff;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 28px;
+    align-items: center;
+  }
+  .cta p { margin-top: 10px; color: rgba(255,255,255,.72); max-width: 60ch; }
+  .cta .btn { background: #fff; color: var(--ink); border-color: #fff; }
+  footer { padding: 36px 0 48px; color: var(--muted); font-size: 14px; }
+  .footer-inner { display: flex; justify-content: space-between; gap: 20px; border-top: 1px solid var(--line); padding-top: 24px; }
+  .footer-inner a { color: var(--ink); text-decoration: none; font-weight: 600; }
+  @media (max-width: 900px) {
+    .hero-grid, .cta { grid-template-columns: 1fr; }
+    .grid-3, .grid-2 { grid-template-columns: 1fr; }
+    .links { display: none; }
+  }
+  @media (max-width: 560px) {
+    :root { --gutter: 20px; }
+    .hero { padding-top: 48px; }
+    h1 { font-size: 46px; }
+    .cta { padding: 30px; }
+    .row { grid-template-columns: 28px 1fr; }
+    .state { grid-column: 2; }
+    .footer-inner { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a href="index.html" class="brand"><span class="glyph">C</span><span>Cirelay Ventures</span></a>
+    <nav class="links" aria-label="Primary">
+      <a href="#deliverables">Deliverables</a>
+      <a href="marketplace-audit-sample.html">Sample</a>
+      <a href="#process">Process</a>
+      <a href="#boundaries">Boundaries</a>
+      <a href="marketplace-account-management.html">Account Management</a>
+      <a href="privacy.html">Privacy</a>
+    </nav>
+    <a class="btn primary" href="mailto:hello@cirelay.com?subject=Marketplace%20Ops%20Audit%20intake">Request audit</a>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <span class="eyebrow"><span class="dot"></span>Fixed-scope audit</span>
+        <h1>Marketplace operations, reviewed before they scale.</h1>
+        <p class="lead">Cirelay Ventures reviews Amazon and Walmart marketplace basics: account health, listing readiness, inventory workflow, fulfillment risk, and practical automation opportunities. The result is a clear action plan, not a vague consulting call.</p>
+        <div class="hero-actions">
+          <a class="btn primary" href="#deliverables">View deliverables</a>
+          <a class="btn" href="marketplace-audit-sample.html">View sample audit</a>
+          <a class="btn" href="mailto:hello@cirelay.com?subject=Marketplace%20Ops%20Audit%20intake">Start intake</a>
+        </div>
+      </div>
+      <aside class="audit-board" aria-label="Marketplace Ops Audit snapshot">
+        <div class="board-top">
+          <div>
+            <div class="board-title">Audit output</div>
+            <div class="board-tag">Scope first, access second</div>
+          </div>
+          <span class="eyebrow"><span class="dot"></span>Pilot open</span>
+        </div>
+        <div class="row"><span class="num">01</span><div><b>Risk log</b><span>Open account, listing, inventory, and fulfillment risks.</span></div><span class="state">Included</span></div>
+        <div class="row"><span class="num">02</span><div><b>30-day action plan</b><span>Prioritized fixes with owner, dependency, and next step.</span></div><span class="state">Included</span></div>
+        <div class="row"><span class="num">03</span><div><b>Automation map</b><span>Workflow candidates for reporting, alerts, and cleanup.</span></div><span class="state">Included</span></div>
+        <div class="row"><span class="num">04</span><div><b>Access plan</b><span>Least-privilege access only when the audit scope requires it.</span></div><span class="state">Controlled</span></div>
+      </aside>
+    </div>
+  </section>
+
+  <section id="deliverables" class="band">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">Deliverables</span>
+        <h2>A fixed review with a practical handoff.</h2>
+        <p>The audit is designed for sellers who need operational clarity before investing in ads, more inventory, extra channels, or heavy automation.</p>
+      </div>
+      <div class="grid-3">
+        <article class="panel">
+          <h3>Proof before trust</h3>
+          <p>Cirelay does not use fake client proof or broad agency claims. The first trust asset is a public sample audit using Cirelay-owned storefront material.</p>
+          <ul>
+            <li><a href="marketplace-audit-sample.html">View the sample audit format</a></li>
+            <li>No testimonials until real clients approve them</li>
+            <li>No password or MFA-code requests</li>
+          </ul>
+        </article>
+        <article class="panel">
+          <h3>Account and access scope</h3>
+          <p>A written scope that defines marketplace, account area, requested permissions, and the data needed for review.</p>
+          <ul>
+            <li>Amazon or Walmart focus</li>
+            <li>Access required only when needed</li>
+            <li>No password or MFA-code sharing</li>
+          </ul>
+        </article>
+        <article class="panel">
+          <h3>Operational review</h3>
+          <p>A practical review of account health, listing readiness, inventory process, fulfillment assumptions, and return workflow.</p>
+          <ul>
+            <li>Account-health and open-risk notes</li>
+            <li>Listing and catalog readiness review</li>
+            <li>Inventory and fulfillment workflow review</li>
+          </ul>
+        </article>
+        <article class="panel">
+          <h3>Action plan</h3>
+          <p>A concise report that prioritizes fixes and highlights where automation can reduce recurring manual work.</p>
+          <ul>
+            <li>Risk log with severity</li>
+            <li>30-day action plan</li>
+            <li>Automation opportunity list</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="process">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">Process</span>
+        <h2>Clear steps before account access.</h2>
+        <p>Cirelay can often begin from seller-provided exports, screenshots, and written context. Marketplace access is requested only after the scope makes it necessary.</p>
+      </div>
+      <div class="timeline">
+        <div class="step"><div><h3>Intake</h3><p>Seller shares marketplace, account state, approximate SKU count, fulfillment model, and the decision the audit should support.</p></div></div>
+        <div class="step"><div><h3>Scope</h3><p>Cirelay sends a written scope, access plan, deliverables, and fixed-fee quote before paid work begins.</p></div></div>
+        <div class="step"><div><h3>Review</h3><p>Account, listings, inventory, fulfillment, reporting, and automation opportunities are reviewed against the agreed scope.</p></div></div>
+        <div class="step"><div><h3>Handoff</h3><p>The seller receives the risk log, prioritized action plan, and recommended next steps for cleanup or ongoing management.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="boundaries" class="band">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">Boundaries</span>
+        <h2>Useful, careful, and not overpromised.</h2>
+        <p>The audit is operational support. It does not promise sales results, account reinstatement, platform approval, or marketplace endorsement.</p>
+      </div>
+      <div class="grid-2">
+        <article class="panel">
+          <h3>What Cirelay will not claim</h3>
+          <ul>
+            <li>No guaranteed sales, ranking, approval, reinstatement, or review removal.</li>
+            <li>No claim of endorsement by Amazon, Walmart, or Best Buy.</li>
+            <li>No client testimonials until real work is completed and approved by the client.</li>
+          </ul>
+        </article>
+        <article class="panel">
+          <h3>What stays seller-controlled</h3>
+          <ul>
+            <li>Marketplace account ownership and final approval.</li>
+            <li>Role-based access and revocation.</li>
+            <li>Sensitive platform responses and account changes.</li>
+          </ul>
+        </article>
+      </div>
+      <p class="note">Cirelay Ventures is an independent service provider. For privacy, credential, data retention, and incident-response practices, read the <a href="privacy.html">Privacy and Data Handling Practices</a>.</p>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="wrap">
+      <div class="cta">
+        <div>
+          <span class="kicker">Contact</span>
+          <h2>Request a Marketplace Ops Audit scope.</h2>
+          <p>Email Cirelay with your marketplace, account status, approximate SKU count, fulfillment model, and the decision you want the audit to support.</p>
+        </div>
+        <a class="btn" href="mailto:hello@cirelay.com?subject=Marketplace%20Ops%20Audit%20intake">hello@cirelay.com</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap footer-inner">
+    <span>Copyright 2024-2026 Cirelay Ventures. Independent service provider; not endorsed by Amazon.com, Inc. or Walmart Inc.</span>
+    <span><a href="index.html">Home</a> / <a href="marketplace-account-management.html">Account Management</a> / <a href="privacy.html">Privacy</a></span>
+  </div>
+</footer>
+</body>
+</html>
